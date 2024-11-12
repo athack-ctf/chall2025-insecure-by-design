@@ -4,11 +4,12 @@
   "description": "",
   "scripts": {
     "start": "node src/app.js",
-    "dev": "nodemon src/app.js"
+    "dev": "nodemon src/app.js --watch src/templates -e twig"
   },
   "dependencies": {
     "express": "^4.21.1",
-    "puppeteer": "^22.8.2"
+    "puppeteer": "^22.8.2",
+    "twig": "^1.17.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.7"
