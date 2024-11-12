@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>InspireHub</title>
+</head>
+<body>
+
+<!-- Navbar with login form -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">InspireHub</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Login Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Login</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content Section -->
+<div class="container my-5">
+    <h2 class="mb-4">Quotes Shared by Users</h2>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <!-- Card 1 -->
+        <div class="col">
+            <div class="card">
+                <img src="https://picsum.photos/200/200?grayscale?random=1" class="card-img-top" alt="Quote Image">
+                <div class="card-body">
+                    <h5 class="card-title">"The best way to predict the future is to create it."</h5>
+                    <p class="card-text">- Peter Drucker</p>
+                </div>
+            </div>
+        </div>
+        <!-- Card 2 -->
+        <div class="col">
+            <div class="card">
+                <img src="https://picsum.photos/200/200?grayscale?random=2" class="card-img-top" alt="Quote Image">
+                <div class="card-body">
+                    <h5 class="card-title">"Success is not final, failure is not fatal: It is the courage to continue
+                        that counts."</h5>
+                    <p class="card-text">- Winston Churchill</p>
+                </div>
+            </div>
+        </div>
+        <!-- Card 3 -->
+        <div class="col">
+            <div class="card">
+                <img src="https://picsum.photos/200/200?grayscale?random=3" class="card-img-top" alt="Quote Image">
+                <div class="card-body">
+                    <h5 class="card-title">"Believe you can and you're halfway there."</h5>
+                    <p class="card-text">- Theodore Roosevelt</p>
+                </div>
+            </div>
+        </div>
+        <!-- Card 4 -->
+        <div class="col">
+            <div class="card">
+                <img src="https://picsum.photos/200/200?grayscale?random=4" class="card-img-top" alt="Quote Image">
+                <div class="card-body">
+                    <h5 class="card-title">"Believe you can and you're halfway there."</h5>
+                    <p class="card-text">- Theodore Roosevelt</p>
+                </div>
+            </div>
+        </div>
+        <!-- Card 5 -->
+        <div class="col">
+            <div class="card">
+                <img src="https://picsum.photos/200/200?grayscale?random=5" class="card-img-top" alt="Quote Image">
+                <div class="card-body">
+                    <h5 class="card-title">"Believe you can and you're halfway there."</h5>
+                    <p class="card-text">- Theodore Roosevelt</p>
+                </div>
+            </div>
+        </div>
+        <!-- Card 6 -->
+        <div class="col">
+            <div class="card">
+                <img src="https://picsum.photos/200/200?grayscale?random=6" class="card-img-top" alt="Quote Image">
+                <div class="card-body">
+                    <h5 class="card-title">"Believe you can and you're halfway there."</h5>
+                    <p class="card-text">- Theodore Roosevelt</p>
+                </div>
+            </div>
+        </div>
+        <!-- Card 7 -->
+        <div class="col">
+            <div class="card">
+                <img src="https://picsum.photos/200/200?grayscale?random=7" class="card-img-top" alt="Quote Image">
+                <div class="card-body">
+                    <h5 class="card-title">"Believe you can and you're halfway there."</h5>
+                    <p class="card-text">- Theodore Roosevelt</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add more cards as needed -->
+    </div>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

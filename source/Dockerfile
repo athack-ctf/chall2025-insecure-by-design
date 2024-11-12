@@ -1,33 +1,32 @@
-#########################################################################################################################
-# TODO: REPLACE THE CONTENT OF THIS FILE WITH YOUR OWN.
-#########################################################################################################################
+FROM node:18-slim
 
-# Use the official Python base image
-FROM python:3.10-slim
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 
-# Set the working directory
+# Install Google Chrome Stable and fonts
+# Note: this installs the necessary libs to make the browser work with Puppeteer.
+RUN apt-get update && apt-get install curl gnupg -y \
+  && curl --location --silent https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+  && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
+  && apt-get update \
+  && apt-get install google-chrome-stable -y --no-install-recommends \
+  && rm -rf /var/lib/apt/lists/*
+
+# Set working directory
 WORKDIR /chall
 
-# Installing Flask
-RUN pip install Flask
+# Copying stuff
+COPY chall/ .
 
-# Create the example chall (chall.py)
-RUN echo "from flask import Flask\n\
-chall = Flask(__name__)\n\
-\n\
-@chall.route('/')\n\
-def hello():\n\
-    return 'Hello @Hack 2025!'\n\
-\n\
-if __name__ == '__main__':\n\
-    chall.run(host='0.0.0.0')" > chall.py
+# Using unpriviliged user
+RUN useradd -m user
+RUN chown -R user .
+USER user
 
-# Set environment vars
-ENV FLASK_APP=chall.py
-ENV FLASK_RUN_PORT=2025
+# Installing dependencies
+RUN npm install --silent
 
-# Expose the port that the chall will run on
+# Exposing port
 EXPOSE 2025
 
-# Run the chall
-CMD ["flask", "run", "--host=0.0.0.0"]
+# Running web server
+CMD ["npm", "start"]

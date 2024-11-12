@@ -1,10 +1,7 @@
-#########################################################################################################################
-# TODO: REPLACE THE CONTENT OF THIS FILE WITH YOUR OWN.
-#########################################################################################################################
-
 services:
-  web:
+  chall:
     build: .
-    image: chall2025-online-chall
+    image: chall2025-insecure-by-design
+    hostname: insecure-by-design
     ports:
       - "2025:2025"
