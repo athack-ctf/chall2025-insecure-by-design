@@ -74,7 +74,8 @@
                         </div>
                         <p class="quote-text">"{{ quote.quoteText }}"</p>
                         <div class="clap-section mt-auto">
-                            <button class="btn btn-light mt-auto clap-btn" onclick="increaseClapCount({{ quote.quoteId }})">
+                            <button class="btn btn-light mt-auto clap-btn"
+                                    onclick="increaseClapCount({{ quote.quoteId }})">
                                 <i id="clap-icon-{{ quote.quoteId }}" class="fa-solid fa-hands-clapping"></i>
                             </button>
                             <span id="clap-count-{{ quote.quoteId }}" class="clap-count">0</span>
@@ -101,7 +102,13 @@
     }
 </script>
 <footer class="text-center py-3">
-    <p class="mb-0">InkHub 2025 - (no rights reserved)</p>
+    <p class="mb-0">
+        <span>___</span>
+        <br>
+        no copy, no write
+        <br>
+        <b>InkHub - 2025</b>
+        </p>
 </footer>
 </body>
 
