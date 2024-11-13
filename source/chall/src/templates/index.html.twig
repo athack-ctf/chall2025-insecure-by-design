@@ -18,43 +18,44 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
         <span class="text-light"><b>InkHub:</b> no ink, just keystrokes, still stylish quotes!</span>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-nav"
-                aria-controls="navbar-nav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
         <div class="collapse navbar-collapse" id="navbar-nav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#login-modal">Login</a>
+                    {% if user is null %}
+                    {% else %}
+                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#login-modal">Login</a>
+                    {% endif %}
                 </li>
             </ul>
         </div>
+
     </div>
 </nav>
-
-<div class="modal fade" id="login-modal" tabindex="-1" aria-labelledby="login-modal-label" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="login-modal-label">Login</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="username" class="form-label">InkHub Username</label>
-                        <input type="text" class="form-control" id="username" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">InkHub Password</label>
-                        <input type="password" class="form-control" id="password" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100">Let me in!</button>
-                </form>
+{% if user is not null %}
+    <div class="modal fade" id="login-modal" tabindex="-1" aria-labelledby="login-modal-label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="login-modal-label">Login</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="username" class="form-label">InkHub Username</label>
+                            <input type="text" class="form-control" id="username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">InkHub Password</label>
+                            <input type="password" class="form-control" id="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Let me in!</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
+{% endif %}
 <div class="container my-5">
     <div class="title-container">
         <img src="/imgs/inkhub-256-256.png" alt="logo">
@@ -108,7 +109,7 @@
         no copy, no write
         <br>
         <b>InkHub - 2025</b>
-        </p>
+    </p>
 </footer>
 </body>
 
