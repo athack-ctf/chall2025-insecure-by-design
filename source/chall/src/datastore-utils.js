@@ -1,3 +1,5 @@
+const {sha256} = require("./utils");
+
 function getAllReverseSortedQuotes() {
     const quotes = [
         {
@@ -110,4 +112,58 @@ function getAllReverseSortedQuotes() {
 }
 
 
-module.exports = {getAllReverseSortedQuotes};
+function getAllUsers() {
+    return [
+        {
+            userId: 100,
+            username: "admin",
+            password: sha256("iiil0vedizj0bhaha"),
+            userHash: sha256("admin"),
+            isAdmin: true,
+        },
+        {
+            userId: 1000,
+            username: "jdoe",
+            password: sha256("securePa$$word1"),
+            userHash: sha256("jdoe"),
+            isAdmin: false,
+        },
+        {
+            userId: 1002,
+            username: "asmith",
+            password: sha256("anotherP@ssw0rd2"),
+            userHash: sha256("asmith"),
+            isAdmin: false,
+        },
+        {
+            userId: 1003,
+            username: "mbrown",
+            password: sha256("thirdPa$$3"),
+            userHash: sha256("mbrown"),
+            isAdmin: false,
+        },
+        {
+            userId: 1004,
+            username: "tjohnson",
+            password: sha256("fourthPassw0rd4"),
+            userHash: sha256("tjohnson"),
+            isAdmin: false,
+        },
+        {
+            userId: 1005,
+            username: "lwilson",
+            password: sha256("passwordNumb3r5"),
+            userHash: sha256("lwilson"),
+            isAdmin: false,
+        }
+    ];
+}
+
+function getAllUsersDict() {
+    return getAllUsers().reduce((dict, user) => {
+        dict[user.username] = user;
+        return dict;
+    }, {});
+}
+
+module.exports = {getAllReverseSortedQuotes, getAllUsers, getAllUsersDict};

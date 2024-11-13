@@ -36,6 +36,14 @@
     margin-right: 15px;
 }
 
+.nav-avatar {
+    border: 5px solid black;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    margin-right: 15px;
+}
+
 .grid-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));

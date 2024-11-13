@@ -7,7 +7,9 @@
     "dev": "nodemon src/app.js --watch src/templates -e twig"
   },
   "dependencies": {
+    "body-parser": "^1.20.3",
     "express": "^4.21.1",
+    "express-session": "^1.18.1",
     "puppeteer": "^22.8.2",
     "twig": "^1.17.1"
   },
