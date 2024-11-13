@@ -170,7 +170,7 @@
 
     document.addEventListener("DOMContentLoaded", function () {
         const hash = window.location.hash.replace('#', '');
-        if (['login', 'logout'].includes(hash)) {
+        if (['login', 'logout', 'share-quote'].includes(hash)) {
             try {
                 (new bootstrap.Modal(document.getElementById(`${hash}-modal`))).show();
             } catch (e) {
