@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const twig = require('twig');
+const {getAllReverseSortedQuotes} = require("./datastore-utils");
 
 // Register Twig as the rendering engine for .twig files
 app.engine('twig', twig.__express);
@@ -22,12 +23,21 @@ app.use(express.urlencoded({extended: true}));
 
 // Index
 app.get('/', (req, res) => {
+    const allQuotes = getAllReverseSortedQuotes();
     const data = {
-        title: 'Home Page',
-        message: 'Welcome to my website!'
+        quotes: allQuotes
     };
     res.render('index.html.twig', data);
 });
+
+// TODO - Login
+// TODO - CSS Observable login credentials
+// TODO - Logout
+// TODO - Customize profile (CSS Injection)
+// TODO - Fetch customized styles
+// TODO - Adding a new card
+// TODO - Admin bot
+// TODO - Adding a head to the card
 
 // 404 Not Found handler for all routes that don't match
 app.use((req, res) => {
