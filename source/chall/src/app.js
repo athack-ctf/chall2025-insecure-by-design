@@ -108,7 +108,7 @@ app.post('/logout', (req, res) => {
 // TODO - Fetch customized styles
 // TODO - Adding a new card
 // TODO - Admin bot
-// TODO - Adding a head to the card
+// TODO- Clapping
 
 // 404 Not Found handler for all routes that don't match
 app.use((req, res) => {
