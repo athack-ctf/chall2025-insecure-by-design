@@ -47,6 +47,7 @@
     </div>
 </nav>
 {% if isLoggedIn == true %}
+    {#  Logout form  #}
     <div class="modal fade" id="logout-modal" tabindex="-1" aria-labelledby="logout-modal-label" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -63,7 +64,39 @@
             </div>
         </div>
     </div>
+    {#  Quote form  #}
+    <div class="modal fade" id="share-quote-modal" tabindex="-1" aria-labelledby="share-quote-modal-label"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title" id="share-quote-modal-label">
+                        <h5>Share your quote via InkHub</h5>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="/share-quote">
+                        <div class="mb-3">
+                            <label for="quote" class="form-label">Your Quote</label>
+                            <textarea name="quote" id="quote" class="form-control" rows="4" maxlength="200"
+                                      placeholder="Enter your quote here (max 200 characters)" required
+                                      style="border: 8px solid red;"></textarea>
+                        </div>
+                        <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+                        <button type="submit" class="btn btn-primary w-100">Share Quote</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {#  New quote button  #}
+    <button type="button" class="btn btn-primary btn-floating position-fixed bottom-0 end-0 m-3" data-bs-toggle="modal"
+            data-bs-target="#share-quote-modal">
+        <i class="fas fa-pen"></i>
+    </button>
 {% else %}
+    {#  Login form  #}
     <div class="modal fade" id="login-modal" tabindex="-1" aria-labelledby="login-modal-label" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
