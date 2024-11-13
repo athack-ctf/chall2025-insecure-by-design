@@ -117,7 +117,7 @@ function getAllUsers() {
         {
             userId: 100,
             username: "admin",
-            password: sha256("iiil0vedizj0bhaha"),
+            password: sha256("admin"),
             userHash: sha256("admin"),
             isAdmin: true,
         },

@@ -212,3 +212,4 @@ app.listen(port, () => {
 // TODO - Adding a new card
 // TODO - Admin bot
 // TODO- Clapping
+// TODO - Weak color validator (has to start with #

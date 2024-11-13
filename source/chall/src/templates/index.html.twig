@@ -78,11 +78,13 @@
                 <div class="modal-body">
                     <form method="post" action="/share-quote">
                         <div class="mb-3">
-                            <label for="quote" class="form-label">Your Quote</label>
-                            <textarea name="quote" id="quote" class="form-control" rows="4" maxlength="200"
+                            <label for="new-quote" class="form-label">Your Quote</label>
+                            <textarea name="new-quote" id="new-quote" class="form-control new-quote" rows="4" maxlength="200"
+                                      oninput="onQuoteTextChanged()"
                                       placeholder="Enter your quote here (max 200 characters)" required
-                                      style="border: 8px solid red;"></textarea>
+                            ></textarea>
                         </div>
+                        <input type="hidden" name="new-quote-color" id="new-quote-color" value="#000000">
                         <input type="hidden" name="_csrf" value="{{ csrfToken }}">
                         <button type="submit" class="btn btn-primary w-100">Share Quote</button>
                     </form>
@@ -153,32 +155,6 @@
         {% endif %}
     </div>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    function increaseClapCount(quoteId) {
-        const clapCount = document.getElementById(`clap-count-${quoteId}`);
-        const clapIcon = document.getElementById(`clap-icon-${quoteId}`);
-        let count = parseInt(clapCount.innerText, 10);
-        clapCount.innerText = ++count;
-        const animationClass = "fa-shake";
-        clapIcon.classList.add(animationClass);
-        setTimeout(() => {
-            clapIcon.classList.remove(animationClass);
-        }, 200);
-    }
-
-    document.addEventListener("DOMContentLoaded", function () {
-        const hash = window.location.hash.replace('#', '');
-        if (['login', 'logout', 'share-quote'].includes(hash)) {
-            try {
-                (new bootstrap.Modal(document.getElementById(`${hash}-modal`))).show();
-            } catch (e) {
-                // no-op
-            }
-        }
-    });
-</script>
 <footer class="text-center py-3">
     <p class="mb-0">
         <b>___</b>
@@ -192,6 +168,55 @@
         <b>InkHub - 2025</b>
     </p>
 </footer>
-</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
 
+    function increaseClapCount(quoteId) {
+        const clapCount = document.getElementById(`clap-count-${quoteId}`);
+        const clapIcon = document.getElementById(`clap-icon-${quoteId}`);
+        let count = parseInt(clapCount.innerText, 10);
+        clapCount.innerText = ++count;
+        const animationClass = "fa-shake";
+        clapIcon.classList.add(animationClass);
+        setTimeout(() => {
+            clapIcon.classList.remove(animationClass);
+        }, 200);
+    }
+
+    function onQuoteTextChanged() {
+
+        const textToColor = (text) => {
+            if (!text) return "#000000";
+            let hash = 0;
+            for (let i = 0; i < text.length; i++) {
+                hash = text.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            let color = "#";
+            for (let i = 0; i < 3; i++) {
+                const value = (hash >> (i * 8)) & 0xFF;
+                color += ("00" + value.toString(16)).slice(-2);
+            }
+            return color;
+        };
+
+        const id = "new-quote";
+        const newQuote = document.getElementById(id);
+        const color = textToColor(newQuote.value);
+        document.getElementById(`${id}-color`).value = color;
+        document.getElementById(id).style.border = `2px solid ${color}`;
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const hash = window.location.hash.replace('#', '');
+        if (['login', 'logout', 'share-quote'].includes(hash)) {
+            try {
+                (new bootstrap.Modal(document.getElementById(`${hash}-modal`))).show();
+            } catch (e) {
+                // no-op
+            }
+        }
+    });
+
+</script>
+</body>
 </html>
