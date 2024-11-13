@@ -13,7 +13,7 @@ app.set('view engine', 'twig');
 app.set('views', path.join(__dirname, 'templates'));
 
 // Port 2025
-const port = 2024;
+const port = 2025;
 
 // Serve static files from the "public" folder
 app.use(express.static(path.join(__dirname, 'public')));
