@@ -112,8 +112,7 @@ app.post('/login', (req, res) => {
     const {username, password} = req.body;
     if (username == null || typeof username !== 'string' || password == null || typeof password !== 'string') {
         // Set 400
-        res.status(400);
-        res.render('400.html.twig');
+        res.status(400).render('400.html.twig');
         return;
     }
     // Hash the entered password and compare it to the stored hash
@@ -126,8 +125,7 @@ app.post('/login', (req, res) => {
         res.redirect('/');
         return;
     } else {
-        res.status(401);
-        res.render('login-failed.html.twig');
+        res.status(401).render('401-login-failed.html.twig');
         return;
     }
 });
@@ -135,25 +133,38 @@ app.post('/login', (req, res) => {
 // Logout route
 app.post('/logout', csrfProtectionMiddleware, (req, res) => {
     if (req.session.username == null) {
-        res.status(400);
-        res.render('400.html.twig');
+        res.status(400).render('400.html.twig');
         return;
     }
     req.session.destroy((err) => {
         if (err) {
-            res.status(500);
-            res.render('500.html.twig');
+            res.status(500).render('500.html.twig');
             return;
         }
-        res.redirect('/');
+        res.redirect('/#login');
     });
+});
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Error handling
+// ---------------------------------------------------------------------------------------------------------------------
+
+// Error handling middleware for CSRF errors
+app.use((err, req, res, next) => {
+    if (err.code === 'EBADCSRFTOKEN') {
+        // Handle CSRF token errors here
+        res.status(403).render('403-bad-csrf-token.html.twig');
+
+    } else {
+        // For other errors, call the next error handler
+        next(err);
+    }
 });
 
 // 404 Not Found handler for all routes that don't match
 app.use((req, res) => {
     // Set 404
-    res.status(404);
-    res.render('404.html.twig');
+    res.status(404).render('404.html.twig');
 });
 
 // ---------------------------------------------------------------------------------------------------------------------
