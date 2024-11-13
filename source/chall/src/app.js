@@ -70,6 +70,20 @@ app.use(session({
 }));
 
 // ---------------------------------------------------------------------------------------------------------------------
+// Auth predicate
+// ---------------------------------------------------------------------------------------------------------------------
+
+function isLoggedIn(req) {
+    return req.session.isLoggedIn === true;
+}
+
+function setIsLoggedIn(req, username) {
+    req.session.isLoggedIn = true;
+    req.session.username = username;
+    return req;
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
 // Port number
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -89,14 +103,16 @@ const usersDict = getAllUsersDict();
 
 // Index
 app.get('/', (req, res) => {
+
     const allQuotes = getAllReverseSortedQuotes();
+
     const data = {
         quotes: allQuotes
     };
 
     data.csrfToken = req.csrfToken();
 
-    if (req.session.username != null) {
+    if (isLoggedIn(req)) {
         data.isLoggedIn = true;
         data.user = usersDict[req.session.username];
     } else {
@@ -109,19 +125,28 @@ app.get('/', (req, res) => {
 
 // Login route
 app.post('/login', (req, res) => {
+
+    // The user is already authenticated
+    if (isLoggedIn(req)) {
+        res.redirect('/');
+        return;
+    }
+
+    // Grabbing credentials
     const {username, password} = req.body;
+
+
+    // Making sure the credentials are in the right type
     if (username == null || typeof username !== 'string' || password == null || typeof password !== 'string') {
         // Set 400
         res.status(400).render('400.html.twig');
         return;
     }
-    // Hash the entered password and compare it to the stored hash
-    const hashedPassword = sha256(password);
 
     // Check if the username exists and hashed passwords match
-    if (username && password && usersDict[username] && usersDict[username].password === hashedPassword) {
+    if (username && password && usersDict[username] && usersDict[username].password === sha256(password)) {
         // Store username in session
-        req.session.username = username;
+        setIsLoggedIn(req, username);
         res.redirect('/');
         return;
     } else {
@@ -132,8 +157,9 @@ app.post('/login', (req, res) => {
 
 // Logout route
 app.post('/logout', csrfProtectionMiddleware, (req, res) => {
-    if (req.session.username == null) {
-        res.status(400).render('400.html.twig');
+    // Cannot logout somehow who is not authenticated
+    if (!isLoggedIn(req)) {
+        res.redirect('/#login');
         return;
     }
     req.session.destroy((err) => {
