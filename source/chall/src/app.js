@@ -171,6 +171,23 @@ app.post('/logout', csrfProtectionMiddleware, (req, res) => {
     });
 });
 
+// Handle the form submission
+app.post('/share-quote', csrfProtectionMiddleware, (req, res) => {
+
+    if (!isLoggedIn(req)) {
+        res.redirect('/#login');
+        return;
+    }
+
+    // Grabbing quote attributes
+    const newQuote = req.body['new-quote'];
+    const newQuoteColor = req.body['new-quote-color'];
+
+    // TODO: Add quote
+
+    res.redirect('/');
+});
+
 // ---------------------------------------------------------------------------------------------------------------------
 // Error handling
 // ---------------------------------------------------------------------------------------------------------------------

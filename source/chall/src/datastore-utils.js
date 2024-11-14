@@ -1,4 +1,4 @@
-const {sha256} = require("./utils");
+const {sha256, textToHexColor} = require("./utils");
 
 function getAllReverseSortedQuotes() {
     const quotes = [
@@ -104,6 +104,10 @@ function getAllReverseSortedQuotes() {
         }
     ];
 
+    quotes.forEach(q => {
+        q.quoteColor = textToHexColor(q.quoteText);
+    })
+
     function sortByQuoteId(arr) {
         return arr.sort((a, b) => b.quoteId - a.quoteId);
     }
@@ -113,50 +117,42 @@ function getAllReverseSortedQuotes() {
 
 
 function getAllUsers() {
-    return [
+    const users = [
         {
-            userId: 100,
             username: "admin",
             password: sha256("admin"),
-            userHash: sha256("admin"),
-            isAdmin: true,
         },
         {
-            userId: 1000,
             username: "jdoe",
             password: sha256("securePa$$word1"),
-            userHash: sha256("jdoe"),
-            isAdmin: false,
         },
         {
-            userId: 1002,
             username: "asmith",
             password: sha256("anotherP@ssw0rd2"),
-            userHash: sha256("asmith"),
-            isAdmin: false,
         },
         {
-            userId: 1003,
             username: "mbrown",
             password: sha256("thirdPa$$3"),
-            userHash: sha256("mbrown"),
-            isAdmin: false,
         },
         {
-            userId: 1004,
             username: "tjohnson",
             password: sha256("fourthPassw0rd4"),
-            userHash: sha256("tjohnson"),
-            isAdmin: false,
         },
         {
-            userId: 1005,
             username: "lwilson",
             password: sha256("passwordNumb3r5"),
-            userHash: sha256("lwilson"),
-            isAdmin: false,
         }
     ];
+
+    let userId = 100;
+    users.forEach(u => {
+        u.userId = userId;
+        u.userHash = sha256(u.username);
+        u.isAdmin = u.username === "admin";
+        userId++;
+    });
+
+    return users;
 }
 
 function getAllUsersDict() {
