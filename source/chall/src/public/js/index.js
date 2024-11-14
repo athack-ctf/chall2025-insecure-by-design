@@ -1,14 +1,48 @@
+const clapTracking = {};
+
 function increaseClapCount(quoteId) {
+
+    const trackingInterval = 2000;
+
     const clapCount = document.getElementById(`clap-count-${quoteId}`);
     const clapIcon = document.getElementById(`clap-icon-${quoteId}`);
+
+    // Initialize tracking for the specific quoteId if it doesn't exist
+    if (!clapTracking[quoteId]) {
+        clapTracking[quoteId] = {
+            clickCount: 0,
+            timeout: null
+        };
+    }
+
+    // Increment the visible clap count on the page
     let count = parseInt(clapCount.innerText, 10);
     clapCount.innerText = ++count;
+
+    // Add click animation
     const animationClass = "fa-shake";
     clapIcon.classList.add(animationClass);
     setTimeout(() => {
         clapIcon.classList.remove(animationClass);
     }, 200);
+
+    // Update the clap count for this quoteId
+    clapTracking[quoteId].clickCount++;
+
+    // If there's no active timeout, start a 2-second countdown
+    if (!clapTracking[quoteId].timeout) {
+        clapTracking[quoteId].timeout = setTimeout(() => {
+            console.log(`Total clicks for quote ${quoteId} during interval: ${clapTracking[quoteId].clickCount}`);
+
+            // TODO: commit to the backed
+
+            // Reset tracking data for this quoteId
+            clapTracking[quoteId].clickCount = 0;
+            clapTracking[quoteId].timeout = null;
+        }, trackingInterval);
+    }
 }
+
 
 function isValidQuote(quote) {
     if (quote == null || typeof quote !== 'string') {
