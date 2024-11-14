@@ -1,4 +1,4 @@
-const {sha256, textToHexColor} = require("./utils");
+const {sha256, textToHexColor, isInspiringQuote} = require("./utils");
 
 function getAllReverseSortedQuotes() {
     const quotes = [
@@ -105,7 +105,11 @@ function getAllReverseSortedQuotes() {
     ];
 
     quotes.forEach(q => {
-        q.quoteColor = textToHexColor(q.quoteText);
+        if (isInspiringQuote(q.quoteText)) {
+            q.quoteColor = textToHexColor(q.quoteText);
+        } else {
+            q.quoteColor = "#000000";
+        }
     })
 
     function sortByQuoteId(arr) {

@@ -14,4 +14,18 @@ function textToHexColor(text) {
     return `#${hash.slice(0, 6)}`;
 }
 
-module.exports = {sha256, md5, textToHexColor};
+function isInspiringQuote(quote) {
+    const wordList = quote.trim().split(/\s+/);
+    const startsWithCapital = /^[A-Z]/.test(quote);
+    const endsWithPeriod = quote.trim().endsWith('.');
+    return (
+        // More than 10 words
+        wordList.length > 10 &&
+        // Starts with a capital letter
+        startsWithCapital &&
+        // Ends with a period
+        endsWithPeriod
+    );
+}
+
+module.exports = {sha256, md5, textToHexColor, isInspiringQuote};
