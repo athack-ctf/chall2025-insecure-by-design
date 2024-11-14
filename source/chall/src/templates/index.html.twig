@@ -19,8 +19,12 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <span class="text-light"><b>InkHub:</b> no ink, just keystrokes, still stylish quotes!</span>
-        <div class="collapse navbar-collapse" id="navbar-nav">
+        <div class="collapse navbar-collapse">
+            <span class="text-light d-inline-block text-truncate">
+                <b>InkHub:</b> no ink, just keystrokes, still stylish quotes!
+            </span>
+        </div>
+        <div id="navbar-nav">
             <ul class="navbar-nav ms-auto">
                 {% if isLoggedIn == true %}
                     <li class="nav-item dropdown">
