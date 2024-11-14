@@ -12,10 +12,10 @@ RUN apt-get update && apt-get install curl gnupg -y \
   && rm -rf /var/lib/apt/lists/*
 
 # Set working directory
-WORKDIR /chall
+WORKDIR /inkhub
 
 # Copying stuff
-COPY chall/ .
+COPY inkhub/ .
 
 # Using unpriviliged user
 RUN useradd -m user
@@ -27,6 +27,8 @@ RUN npm install --silent
 
 # Exposing port
 EXPOSE 2025
+
+# TODO setup admin-bot
 
 # Running web server
 CMD ["npm", "start"]

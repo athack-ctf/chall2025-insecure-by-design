@@ -238,7 +238,7 @@ app.listen(port, () => {
 // TODO - CSS Observable login credentials
 // TODO - Fetch customized styles
 // TODO - Adding a new card
-// TODO - Admin bot
+// TODO - Admin admin-bot
 // TODO- Clapping
 // TODO - Stronger admin pass
 // TODO - Add flag
