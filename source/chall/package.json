@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "start": "node src/app.js",
-    "dev": "nodemon src/app.js --watch src/templates -e twig"
+    "dev": "nodemon src/app.js --watch src/ -e twig,js,css,ico,png,webmanifest"
   },
   "dependencies": {
     "body-parser": "^1.20.3",

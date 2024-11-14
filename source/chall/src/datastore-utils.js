@@ -92,16 +92,6 @@ function getAllReverseSortedQuotes() {
                 userHash: "b5f4a3d2e7c9b1d8f6a9c4e1d7f3b2e9",
             }
         },
-        {
-            quoteId: 109,
-            quoteText: "Life is 10% what happens to us and 90% how we react to it.",
-            clapCount: 50,
-            user: {
-                userId: 109,
-                username: "ReactRight",
-                userHash: "c9b1f4a5e3d7f2a6b3c8e9d1a7f6b5e4",
-            }
-        }
     ];
 
     quotes.forEach(q => {

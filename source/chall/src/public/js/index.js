@@ -36,10 +36,8 @@ function isInspiringQuote(quote) {
     );
 }
 
-function hexColor() {
-    // Generate a random number between 0 and 0xFFFFFF
-    const randomColor = Math.floor(Math.random() * 0xFFFFFF).toString(16);
-    return `#${randomColor.padStart(6, '0')}`;
+function newHexColor() {
+    return `#${Math.floor(Math.random() * 0xFFFFFF).toString(16).padStart(6, '0')}`;
 }
 
 function onQuoteTextChanged() {
@@ -65,15 +63,15 @@ function onQuoteTextChanged() {
 
     // Making inspiring quotes stylish
     if (isInspiringQuote(quote)) {
-        const color = hexColor();
         if (!newQuote.closest("form").querySelector('input[name="new-quote-color"]')) {
+            const color = newHexColor();
             const newQuoteColor = document.createElement("input");
             newQuoteColor.type = "hidden";
             newQuoteColor.name = "new-quote-color";
             newQuoteColor.value = color;
             newQuote.closest("form").appendChild(newQuoteColor);
+            newQuote.style.border = `2px solid ${color}`;
         }
-        newQuote.style.border = `2px solid ${color}`;
     } else {
         document.querySelector('form input[name="new-quote-color"]')?.remove();
         newQuote.style.border = "2px solid black";

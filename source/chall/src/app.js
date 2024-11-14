@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser');
 
 const {getAllReverseSortedQuotes, getAllUsersDict} = require("./datastore-utils");
 const {sha256} = require("./utils");
+const {isValidHexColor} = require("./vuln-utils");
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Creating app
@@ -183,9 +184,18 @@ app.post('/share-quote', csrfProtectionMiddleware, (req, res) => {
     const newQuote = req.body['new-quote'];
     const newQuoteColor = req.body['new-quote-color'];
 
-    console.log(newQuote);
-    console.log(newQuoteColor);
-    // TODO: Add quote
+    if (newQuote == null || typeof newQuote !== 'string') {
+        res.status(400).render('400.html.twig');
+        return;
+    }
+
+    // NOTE: This is the vulnerable part allowing for the CSS injection to happen
+    if (!isValidHexColor(newQuoteColor)) {
+        res.status(400).render('400.html.twig');
+        return;
+    }
+    // TODO: Save quote
+    console.log("Time to save the new quote");
 
     res.redirect('/');
 });
@@ -231,4 +241,5 @@ app.listen(port, () => {
 // TODO - Adding a new card
 // TODO - Admin bot
 // TODO- Clapping
-// TODO - Weak color validator (has to start with #
+// TODO - Stronger admin pass
+// TODO - Add flag
