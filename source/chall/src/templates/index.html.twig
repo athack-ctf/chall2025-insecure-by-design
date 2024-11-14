@@ -9,7 +9,6 @@
     <link rel="manifest" href="/site.webmanifest">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/js-md5@0.8.3/src/md5.min.js"></script>
     <link href="/styles.css" rel="stylesheet">
     <title>InkHub</title>
     <style>
@@ -87,7 +86,8 @@
                             ></textarea>
                         </div>
                         <div class="mb-3">
-                            <small id="new-quote-error" style="color: red; display: none;">We don't support that character, yet.</small>
+                            <small id="new-quote-error" style="color: red; display: none;">We don't support that
+                                character, yet.</small>
                         </div>
                         <input type="hidden" name="new-quote-color" id="new-quote-color" value="#000000">
                         <input type="hidden" name="_csrf" value="{{ csrfToken }}">
@@ -200,10 +200,17 @@
         return quotePattern.test(quote);
     }
 
-    function onQuoteTextChanged() {
+    function generateRandomHexColor() {
+        // Generate a random number between 0 and 0xFFFFFF
+        const randomColor = Math.floor(Math.random() * 0xFFFFFF).toString(16);
+        return `#${randomColor.padStart(6, '0')}`;
+    }
 
+    function onQuoteTextChanged() {
         // Grabbing quote
+        const black = "#000000";
         const newQuote = document.getElementById("new-quote");
+        const newQuoteStyle = document.getElementById("new-quote-color");
         const text = newQuote.value;
 
         // Only allowing alphanumeric characters (and basic punctuation)
@@ -216,13 +223,13 @@
             errorMessage.style.display = 'block';
             shareButton.disabled = true;
         } else {
+            // Adding a unique color to the quote's borders
+            const color = !text ? black : generateRandomHexColor();
+            // Quick trick to change the colors
+            newQuote.style.border = `2px solid ${(newQuoteStyle.value = color)}`;
             // Hide error message if the input is valid
             errorMessage.style.display = 'none';
             shareButton.disabled = false;
-            // Take the first 6 characters of the MD5 hash and convert to hex color
-            const color = !text ? "#000000" : `#${md5(text).slice(0, 6)}`;
-            document.getElementById("new-quote-color").value = color;
-            newQuote.style.border = `2px solid ${color}`;
         }
     }
 

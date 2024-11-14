@@ -183,6 +183,7 @@ app.post('/share-quote', csrfProtectionMiddleware, (req, res) => {
     const newQuote = req.body['new-quote'];
     const newQuoteColor = req.body['new-quote-color'];
 
+
     // TODO: Add quote
 
     res.redirect('/');
