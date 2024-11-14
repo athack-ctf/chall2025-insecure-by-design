@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "",
   "scripts": {
-    "start": "node src/bot.js"
+    "admin-bot": "node src/bot.js"
   },
   "dependencies": {
     "puppeteer": "^22.8.2"
