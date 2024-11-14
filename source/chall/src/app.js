@@ -236,7 +236,6 @@ app.listen(port, () => {
 
 // TODO - Rate limiting
 // TODO - CSS Observable login credentials
-// TODO - Customize profile (CSS Injection)
 // TODO - Fetch customized styles
 // TODO - Adding a new card
 // TODO - Admin bot
