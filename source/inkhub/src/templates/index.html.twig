@@ -148,9 +148,9 @@
                 <div id="quote-card-{{ quote.quoteId }}" class="quote-card d-flex flex-column">
                     <div class="d-flex flex-column quote-card-inner-border-default">
                         <div class="user-info">
-                            <img src="https://gravatar.com/avatar/{{ quote.user.userHash }}?s=64&d=wavatar&r=x"
+                            <img src="https://gravatar.com/avatar/{{ quote.User.userHash }}?s=64&d=wavatar&r=x"
                                  alt="Avatar" class="quote-avatar">
-                            <h5>{{ quote.user.username }}</h5>
+                            <h5>{{ quote.User.username }}</h5>
                         </div>
                         <p class="quote-text">"{{ quote.quoteText }}"</p>
                         <div class="clap-section mt-auto">

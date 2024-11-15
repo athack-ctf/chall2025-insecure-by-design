@@ -51,7 +51,9 @@ module.exports = (sequelize, DataTypes) => {
 
     // Method to find a user by username
     User.findByUsername = async function (username) {
-        return await this.findOne({where: {username}});
+        return await this.findOne({
+            where: {username}
+        });
     };
 
     return User;

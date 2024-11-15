@@ -6,9 +6,8 @@ const bodyParser = require('body-parser');
 const csrf = require('csurf');
 const cookieParser = require('cookie-parser');
 
-const {getAllReverseSortedQuotes} = require("./datastore-utils");
 const {isValidHexColor} = require("./utils-vuln");
-const {User} = require("./models");
+const {User, Quote} = require("./models");
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Creating app
@@ -98,7 +97,19 @@ const port = 2025;
 // Index
 app.get('/', async (req, res) => {
 
-    const allQuotes = getAllReverseSortedQuotes();
+    // Variable for holding all quotes
+    let allQuotes = null;
+
+    try {
+        allQuotes = await Quote.getQuotesWithUsers();
+        console.dir(allQuotes);
+        console.log('Total quotes fetched (with users): ', allQuotes.length);
+    } catch (error) {
+        console.error('Error displaying quotes with users:', error);
+        res.status(500).render('500.html.twig');
+        return;
+    }
+
 
     const data = {
         quotes: allQuotes,

@@ -1,7 +1,12 @@
-const {sequelize, User, Quote} = require('./models');
+const {sequelize, User, Quote, checkIfDbFileExists} = require('./models');
 const {isInspiringQuote, textToHexColor, sha256, generateNumberInRange} = require("./utils");
 
 (async function () {
+
+    if (await checkIfDbFileExists()) {
+        console.log("Skipping because database has already been created.")
+        return;
+    }
 
     const users = [
         {
@@ -103,7 +108,8 @@ const {isInspiringQuote, textToHexColor, sha256, generateNumberInRange} = requir
         // Sync the database
         await sequelize.sync();
 
-        const dbUsers = users.map(async u => {
+        const dbUsers = new Array(5).fill(null);
+        for (const [index, u] of users.entries()) {
             // Create a user
             const user = await User.create({
                 username: u.username,
@@ -111,13 +117,17 @@ const {isInspiringQuote, textToHexColor, sha256, generateNumberInRange} = requir
                 isAdmin: u.username === "admin",
                 password: u.password,
             });
-            return user;
-        })
+
+            dbUsers[index] = user;
+        }
 
         for (const q of quotes) {
             // Grabbing a random user (deterministically)
             const userIdx = await generateNumberInRange(q.quoteText, 0, dbUsers.length - 1);
             const user = dbUsers[userIdx];
+
+            console.log("user");
+            console.log(user.userId);
 
             // Create a quote associated with the user
             await Quote.create({
@@ -131,7 +141,7 @@ const {isInspiringQuote, textToHexColor, sha256, generateNumberInRange} = requir
 
         // Fetch and display quotes with user details
         const dbQuotes = await Quote.findAll({include: User});
-        console.log(JSON.stringify(dbQuotes, null, 2));
+        // console.log(JSON.stringify(dbQuotes, null, 2));
 
     } catch (error) {
         console.error('Unable to perform database operations:', error);

@@ -1,8 +1,10 @@
 const {Sequelize, DataTypes} = require('sequelize');
 const path = require("path");
+const fs = require("fs");
+const dbFilePath = path.resolve(__dirname, "../../db", "database.sqlite");
 const sequelize = new Sequelize({
     dialect: 'sqlite',
-    storage: path.join(__dirname, "../../db", "database.sqlite"),
+    storage: dbFilePath,
     // TODO: Disable logging for cleaner output
     // logging: false,
     logging: (msg) => console.debug(msg),
@@ -15,4 +17,8 @@ const Quote = require('./quote')(sequelize, DataTypes);
 User.hasMany(Quote, {foreignKey: 'userId'});
 Quote.belongsTo(User, {foreignKey: 'userId'});
 
-module.exports = {sequelize, User, Quote};
+async function checkIfDbFileExists() {
+    return fs.existsSync(dbFilePath);
+}
+
+module.exports = {sequelize, User, Quote, checkIfDbFileExists};
