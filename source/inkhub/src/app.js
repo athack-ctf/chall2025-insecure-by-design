@@ -6,9 +6,9 @@ const bodyParser = require('body-parser');
 const csrf = require('csurf');
 const cookieParser = require('cookie-parser');
 
-const {getAllReverseSortedQuotes, getAllUsersDict} = require("./datastore-utils");
-const {sha256} = require("./utils");
+const {getAllReverseSortedQuotes} = require("./datastore-utils");
 const {isValidHexColor} = require("./utils-vuln");
+const {User} = require("./models");
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Creating app
@@ -92,40 +92,42 @@ function setIsLoggedIn(req, username) {
 const port = 2025;
 
 // ---------------------------------------------------------------------------------------------------------------------
-// Getting all read-only data
-// ---------------------------------------------------------------------------------------------------------------------
-
-// Get all users
-const usersDict = getAllUsersDict();
-
-// ---------------------------------------------------------------------------------------------------------------------
 // Adding routes
 // ---------------------------------------------------------------------------------------------------------------------
 
 // Index
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
 
     const allQuotes = getAllReverseSortedQuotes();
 
     const data = {
-        quotes: allQuotes
+        quotes: allQuotes,
+        csrfToken: req.csrfToken()
     };
 
-    data.csrfToken = req.csrfToken();
-
-    if (isLoggedIn(req)) {
-        data.isLoggedIn = true;
-        data.user = usersDict[req.session.username];
-    } else {
+    if (!isLoggedIn(req)) {
         data.isLoggedIn = false;
         data.user = null;
+        res.render('index.html.twig', data);
+        return;
     }
 
-    res.render('index.html.twig', data);
+    try {
+        const user = await User.findByUsername(req.session.username);
+        data.isLoggedIn = true;
+        data.user = user;
+        res.render('index.html.twig', data);
+        return;
+    } catch (e) {
+        console.error('Error finding user:', e);
+        res.status(500).render('500.html.twig');
+        return;
+    }
+
 });
 
 // Login route
-app.post('/login', (req, res) => {
+app.post('/login', async (req, res) => {
 
     // The user is already authenticated
     if (isLoggedIn(req)) {
@@ -144,13 +146,14 @@ app.post('/login', (req, res) => {
         return;
     }
 
-    // Check if the username exists and hashed passwords match
-    if (username && password && usersDict[username] && usersDict[username].password === sha256(password)) {
+    try {
+        // Attempt to authenticate the user by calling the authenticate method
+        const user = await User.authenticate(username, password);
         // Store username in session
-        setIsLoggedIn(req, username);
+        setIsLoggedIn(req, user.username);
         res.redirect('/');
         return;
-    } else {
+    } catch (error) {
         res.status(401).render('401-login-failed.html.twig');
         return;
     }
@@ -242,3 +245,4 @@ app.listen(port, () => {
 // TODO- Clapping
 // TODO - Stronger admin pass
 // TODO - Add flag
+// TODO - Log events

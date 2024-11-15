@@ -6,7 +6,9 @@ const {isInspiringQuote, textToHexColor, sha256, generateNumberInRange} = requir
     const users = [
         {
             username: "admin",
-            password: "Iat20HA25CKl0v3ctf",
+            // TODO: Select stronger password for the admin
+            //  password: "Iat20HA25CKl0v3ctf",
+            password: "admin",
         },
         {
             username: "qubit.wizard",
