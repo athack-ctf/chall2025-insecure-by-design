@@ -126,9 +126,6 @@ const {isInspiringQuote, textToHexColor, sha256, generateNumberInRange} = requir
             const userIdx = await generateNumberInRange(q.quoteText, 0, dbUsers.length - 1);
             const user = dbUsers[userIdx];
 
-            console.log("user");
-            console.log(user.userId);
-
             // Create a quote associated with the user
             await Quote.create({
                 quoteText: q.quoteText,
@@ -140,7 +137,7 @@ const {isInspiringQuote, textToHexColor, sha256, generateNumberInRange} = requir
         }
 
         // Fetch and display quotes with user details
-        const dbQuotes = await Quote.findAll({include: User});
+        // const dbQuotes = await Quote.findAll({include: User});
         // console.log(JSON.stringify(dbQuotes, null, 2));
 
     } catch (error) {
