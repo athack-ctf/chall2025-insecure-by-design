@@ -150,8 +150,14 @@
 {% endif %}
 <div class="container my-5">
     <div class="title-container">
+        {% if isLoggedIn == true and user.isAdmin == true %}
+            {#  *** FALG VALUE *** #}
+            <h4><code><i class="fa-solid fa-flag fa-bounce"></i>ATHACKCTF{L0LIat20HA25CKl0v3ctfL0L}<i class="fa-solid fa-flag fa-bounce"></i></code></h4>
+            {#  *** FALG VALUE *** #}
+        {% endif %}
         <img src="/imgs/inkhub-256-256.png" alt="logo">
         <h5 class="mb-4">Recently Shared Quotes: <code class="text-primary"><b>{{ quotes|length | escape }}</b></code></h5>
+
     </div>
     <div class="grid-container">
         {% if quotes is empty %}

@@ -346,10 +346,6 @@ app.listen(port, () => {
 // TODO - CSS Observable login credentials
 // TODO - Fetch customized styles
 // TODO - Admin admin-bot (claps, and writes a quote)
-// TODO- Clapping
-// TODO - Add flag
 // TODO - Log events
 // TODO - minify/uglify js
-// TODO - fix the header
-// TODO: Select stronger password for the admin
-//  password: "Iat20HA25CKl0v3ctf",
+// TODO - Check client and server side quote validation
