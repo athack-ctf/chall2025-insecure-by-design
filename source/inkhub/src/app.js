@@ -317,9 +317,13 @@ app.listen(port, () => {
 // TODO - Rate limiting
 // TODO - CSS Observable login credentials
 // TODO - Fetch customized styles
-// TODO - Admin admin-bot
+// TODO - Admin admin-bot (claps, and writes a quote)
 // TODO- Clapping
 // TODO - Stronger admin pass
 // TODO - Add flag
 // TODO - Log events
 // TODO - minify/uglify js
+// TODO - fix the header
+// TODO - add refresh button
+// TODO: Select stronger password for the admin
+//  password: "Iat20HA25CKl0v3ctf",

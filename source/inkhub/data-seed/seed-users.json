@@ -1,0 +1,42 @@
+[
+  {
+    "username": "admin",
+    "password": "admin"
+  },
+  {
+    "username": "qubit.wizard",
+    "password": "EntangleM3!"
+  },
+  {
+    "username": "neural.nate",
+    "password": "DeepDr34ms#"
+  },
+  {
+    "username": "alice.algorithms",
+    "password": "SortThis!42"
+  },
+  {
+    "username": "quantum.qarl",
+    "password": "SpookyActi0n"
+  },
+  {
+    "username": "higgs.hacker",
+    "password": "B0s0n4Life!"
+  },
+  {
+    "username": "tensor.terry",
+    "password": "FlowingT3ns0rs"
+  },
+  {
+    "username": "schrodinger.sam",
+    "password": "InOrOut@Cat"
+  },
+  {
+    "username": "fuzzy.frances",
+    "password": "LogicRul3z!"
+  },
+  {
+    "username": "quark.quincy",
+    "password": "Str4ngeUpDown"
+  }
+]
