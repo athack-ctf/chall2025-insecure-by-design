@@ -8,7 +8,7 @@ const cookieParser = require('cookie-parser');
 
 const {getAllReverseSortedQuotes, getAllUsersDict} = require("./datastore-utils");
 const {sha256} = require("./utils");
-const {isValidHexColor} = require("./vuln-utils");
+const {isValidHexColor} = require("./utils-vuln");
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Creating app

@@ -4,15 +4,19 @@
   "description": "",
   "scripts": {
     "start": "node src/app.js",
-    "dev": "nodemon src/app.js --watch src/ -e twig,js,css,ico,png,webmanifest"
+    "dev": "nodemon src/app.js --watch src/ -e twig,js,css,ico,png,webmanifest",
+    "seed-db": "node src/seed-db.js"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "body-parser": "^1.20.3",
     "cookie-parser": "^1.4.7",
     "csurf": "^1.11.0",
     "express": "^4.21.1",
     "express-session": "^1.18.1",
     "puppeteer": "^22.8.2",
+    "sequelize": "^6.37.5",
+    "sqlite3": "^5.1.7",
     "twig": "^1.17.1"
   },
   "devDependencies": {

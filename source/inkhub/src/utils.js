@@ -28,4 +28,22 @@ function isInspiringQuote(quote) {
     );
 }
 
-module.exports = {sha256, md5, textToHexColor, isInspiringQuote};
+async function generateNumberInRange(input, min, max) {
+    // Convert the string to a hash using the SHA-256 algorithm
+    const encoder = new TextEncoder();
+    const data = encoder.encode(input);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+
+    // Convert the hash buffer to an integer (we'll use the first 4 bytes for simplicity)
+    const hashArray = new Uint8Array(hashBuffer);
+    let hash = 0;
+    for (let i = 0; i < 4; i++) {
+        hash = (hash << 8) | hashArray[i];
+    }
+
+    // Map the hash to the desired range [min, max]
+    const range = max - min + 1;
+    return min + Math.abs(hash % range);
+}
+
+module.exports = {sha256, md5, textToHexColor, isInspiringQuote, generateNumberInRange};
