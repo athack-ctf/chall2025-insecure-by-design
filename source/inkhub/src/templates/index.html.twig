@@ -53,6 +53,29 @@
 
     </div>
 </nav>
+<div class="position-fixed bottom-0 end-0 m-3">
+    <button type="button" class="btn btn-secondary btn-floating mb-2"
+            data-bs-toggle="tooltip" title="Refresh the page" onclick="window.location.reload();">
+        <i class="fas fa-refresh" id="refresh-button-icon"></i>
+    </button>
+    {% if isLoggedIn == true %}
+        <br>
+        <button type="button" class="btn btn-primary btn-floating"
+                data-bs-target="#share-quote-modal"
+                data-bs-toggle="modal"
+                id="pen-button">
+            <i class="fas fa-pen"></i>
+        </button>
+    {% endif %}
+</div>
+
+{% if isLoggedIn == true %}
+    {#  New quote button  #}
+    <button type="button" class="btn btn-primary btn-floating position-fixed bottom-0 end-0 m-3" data-bs-toggle="modal"
+            data-bs-target="#share-quote-modal">
+        <i class="fas fa-pen"></i>
+    </button>
+{% endif %}
 {% if isLoggedIn == true %}
     {#  Logout form  #}
     <div class="modal fade" id="logout-modal" tabindex="-1" aria-labelledby="logout-modal-label" aria-hidden="true">
@@ -106,11 +129,6 @@
             </div>
         </div>
     </div>
-    {#  New quote button  #}
-    <button type="button" class="btn btn-primary btn-floating position-fixed bottom-0 end-0 m-3" data-bs-toggle="modal"
-            data-bs-target="#share-quote-modal">
-        <i class="fas fa-pen"></i>
-    </button>
 {% else %}
     {#  Login form  #}
     <div class="modal fade" id="login-modal" tabindex="-1" aria-labelledby="login-modal-label" aria-hidden="true">

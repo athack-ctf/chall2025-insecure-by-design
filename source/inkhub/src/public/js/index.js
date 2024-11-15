@@ -128,6 +128,13 @@ function onQuoteTextChanged() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+
+    // Initialize Bootstrap tooltips
+    const tooltipTriggerList = Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+        new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+
     const hash = window.location.hash.replace('#', '');
     if (['login', 'logout', 'share-quote'].includes(hash)) {
         try {
@@ -136,4 +143,12 @@ document.addEventListener("DOMContentLoaded", function () {
             // no-op
         }
     }
+
+    // Prompting the user to refresh the page (after 90 seconds)
+    setTimeout(function () {
+        const icon = document.getElementById("refresh-button-icon");
+        if (icon) {
+            icon.classList.add("fa-beat");
+        }
+    }, 5000);
 });
