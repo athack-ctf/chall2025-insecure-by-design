@@ -8,7 +8,7 @@ const cookieParser = require('cookie-parser');
 
 const {isValidHexColor} = require("./utils-vuln");
 const {User, Quote} = require("./models");
-const {isInspiringQuote, textToHexColor} = require("./utils");
+const {isInspiringQuote, textToHexColor, isStrictlyPositive} = require("./utils");
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Creating app
@@ -139,7 +139,7 @@ app.get('/', async (req, res) => {
 });
 
 // Login route
-app.post('/login', async (req, res) => {
+app.post('/login', csrfProtectionMiddleware, async (req, res) => {
 
     // The user is already authenticated
     if (isLoggedIn(req)) {
@@ -219,20 +219,57 @@ app.post('/share-quote', csrfProtectionMiddleware, async (req, res) => {
         return;
     }
 
+    // Populating quote data
     const quoteData = {
         quoteText: newQuoteText,
         isInspiring: isInspiringQuote(newQuoteText),
         userId: user.userId
     };
+
+    // Checking if we are dealing with an inspiring quote
     if (isInspiringQuote(newQuoteText)) {
-        quoteData.quoteColor = newQuoteColor;
+        quoteData.quoteColor = newQuoteColor; // <-- NOTE: The CSS Injection happens here!
     }
 
+    // Saving the quote
     const quote = await Quote.create(quoteData);
 
-    console.log("Time to save the new quote");
-
     res.redirect('/');
+});
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Clapping route
+// ---------------------------------------------------------------------------------------------------------------------
+
+app.post('/ajax/submit-claps/:quoteId([0-9]+)', csrfProtectionMiddleware, express.json(), async (req, res) => {
+
+    if (!isLoggedIn(req)) {
+        res.status(401).json({
+            error: 'Missing authentication',
+            message: 'Authentication is missing.'
+        });
+        return;
+    }
+    // Access the quoteId from the URL parameters
+    const quoteId = req.params.quoteId;
+
+    // Clap count
+    const {clapCount} = req.body;
+
+    if(!isStrictlyPositive(clapCount)){
+        res.status(400).json({
+            error: 'Invalid arguments',
+            message: 'Invalid arguments.'
+        });
+        return;
+    }
+
+    console.log('Quote ID:', quoteId);
+    console.log('Clap count:', clapCount);
+    // TODO: Increase clap count
+
+    // Respond with a success message or handle the request further
+    res.json({ message: 'Clap submitted successfully!', quoteId });
 });
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -242,9 +279,17 @@ app.post('/share-quote', csrfProtectionMiddleware, async (req, res) => {
 // Error handling middleware for CSRF errors
 app.use((err, req, res, next) => {
     if (err.code === 'EBADCSRFTOKEN') {
+        // Check if the request is expecting JSON (i.e., 'application/json' content-type)
+        if (req.is('application/json')) {
+            // Send a JSON response for CSRF errors
+            res.status(403).json({
+                error: 'Invalid CSRF token',
+                message: 'The CSRF token is missing or invalid. Refresh the page or try again.'
+            });
+            return;
+        }
         // Handle CSRF token errors here
         res.status(403).render('403-bad-csrf-token.html.twig');
-
     } else {
         // For other errors, call the next error handler
         next(err);
@@ -272,7 +317,6 @@ app.listen(port, () => {
 // TODO - Rate limiting
 // TODO - CSS Observable login credentials
 // TODO - Fetch customized styles
-// TODO - Adding a new card
 // TODO - Admin admin-bot
 // TODO- Clapping
 // TODO - Stronger admin pass

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrfToken }}">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -86,14 +87,16 @@
                     <form method="post" action="/share-quote">
                         <div class="mb-3">
                             <label for="new-quote-text" class="form-label">Your Quote</label>
-                            <textarea name="new-quote-text" id="new-quote-text" class="form-control new-quote-text" rows="4"
+                            <textarea name="new-quote-text" id="new-quote-text" class="form-control new-quote-text"
+                                      rows="4"
                                       maxlength="200"
                                       oninput="onQuoteTextChanged()"
                                       placeholder="Enter your quote here (max 200 characters)" required
                             ></textarea>
                         </div>
                         <div class="mb-3">
-                            <small id="new-quote-error" style="color: red; display: none;">InkHub doesn't support some characters, yet.</small>
+                            <small id="new-quote-error" style="color: red; display: none;">InkHub doesn't support some
+                                characters, yet.</small>
                         </div>
                         <input type="hidden" name="_csrf" value="{{ csrfToken }}">
                         <button id="share-new-quote-btn" type="submit" class="btn btn-primary w-100">Share Quote
@@ -153,13 +156,18 @@
                             <h5>{{ quote.User.username }}</h5>
                         </div>
 
-                        <p class="quote-text text-black"><i class="fa-solid fa-quote-left"></i> <code>{{ quote.quoteText }} </code><i class="fa-solid fa-quote-right"></i></p>
+                        <p class="quote-text text-black"><i class="fa-solid fa-quote-left"></i>
+                            <code>{{ quote.quoteText }} </code><i class="fa-solid fa-quote-right"></i></p>
                         <div class="clap-section mt-auto">
                             <button class="btn btn-light mt-auto clap-btn"
-                                    onclick="increaseClapCount({{ quote.quoteId }})">
+                                    onclick="increaseClapCount({{ quote.quoteId }})"
+                                    {% if isLoggedIn == false %}
+                                        disabled
+                                    {% endif %}
+                            >
                                 <i id="clap-icon-{{ quote.quoteId }}" class="fa-solid fa-hands-clapping"></i>
                             </button>
-                            <span id="clap-count-{{ quote.quoteId }}" class="clap-count">0</span>
+                            <span id="clap-count-{{ quote.quoteId }}" class="clap-count">{{ quote.clapCount }}</span>
                         </div>
                     </div>
                 </div>

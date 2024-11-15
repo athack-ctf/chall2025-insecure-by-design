@@ -46,4 +46,8 @@ async function generateNumberInRange(input, min, max) {
     return min + Math.abs(hash % range);
 }
 
-module.exports = {sha256, md5, textToHexColor, isInspiringQuote, generateNumberInRange};
+function isStrictlyPositive(value) {
+    return typeof value === 'number' && value > 0;
+}
+
+module.exports = {sha256, md5, textToHexColor, isInspiringQuote, generateNumberInRange, isStrictlyPositive};

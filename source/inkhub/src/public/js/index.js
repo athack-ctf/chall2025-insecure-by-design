@@ -1,6 +1,6 @@
 const clapTracking = {};
 
-function increaseClapCount(quoteId) {
+async function increaseClapCount(quoteId) {
 
     const trackingInterval = 2000;
 
@@ -31,8 +31,23 @@ function increaseClapCount(quoteId) {
 
     // If there's no active timeout, start a 2-second countdown
     if (!clapTracking[quoteId].timeout) {
-        clapTracking[quoteId].timeout = setTimeout(() => {
+        clapTracking[quoteId].timeout = setTimeout(async () => {
+
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            console.log(`CSRF ${csrfToken}`);
             console.log(`Total clicks for quote ${quoteId} during interval: ${clapTracking[quoteId].clickCount}`);
+
+            const clickCount = clapTracking[quoteId].clickCount;
+
+            await fetch(`/ajax/submit-claps/${quoteId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': csrfToken,
+                },
+                body: JSON.stringify({clapCount: clickCount})
+            });
 
             // TODO: commit to the backed
 
