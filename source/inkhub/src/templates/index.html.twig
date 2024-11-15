@@ -85,8 +85,8 @@
                 <div class="modal-body">
                     <form method="post" action="/share-quote">
                         <div class="mb-3">
-                            <label for="new-quote" class="form-label">Your Quote</label>
-                            <textarea name="new-quote" id="new-quote" class="form-control new-quote" rows="4"
+                            <label for="new-quote-text" class="form-label">Your Quote</label>
+                            <textarea name="new-quote-text" id="new-quote-text" class="form-control new-quote-text" rows="4"
                                       maxlength="200"
                                       oninput="onQuoteTextChanged()"
                                       placeholder="Enter your quote here (max 200 characters)" required
@@ -138,7 +138,7 @@
 <div class="container my-5">
     <div class="title-container">
         <img src="/imgs/inkhub-256-256.png" alt="logo">
-        <h5 class="mb-4">Recently Shared Quotes: <b> {{ quotes|length }}</b></h5>
+        <h5 class="mb-4">Recently Shared Quotes: <code class="text-primary"><b>{{ quotes|length }}</b></code></h5>
     </div>
     <div class="grid-container">
         {% if quotes is empty %}
@@ -152,7 +152,8 @@
                                  alt="Avatar" class="quote-avatar">
                             <h5>{{ quote.User.username }}</h5>
                         </div>
-                        <p class="quote-text">"{{ quote.quoteText }}"</p>
+
+                        <p class="quote-text text-black"><i class="fa-solid fa-quote-left"></i> <code>{{ quote.quoteText }} </code><i class="fa-solid fa-quote-right"></i></p>
                         <div class="clap-section mt-auto">
                             <button class="btn btn-light mt-auto clap-btn"
                                     onclick="increaseClapCount({{ quote.quoteId }})">

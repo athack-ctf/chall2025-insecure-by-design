@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser');
 
 const {isValidHexColor} = require("./utils-vuln");
 const {User, Quote} = require("./models");
+const {isInspiringQuote, textToHexColor} = require("./utils");
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Creating app
@@ -187,18 +188,27 @@ app.post('/logout', csrfProtectionMiddleware, (req, res) => {
 });
 
 // Handle the form submission
-app.post('/share-quote', csrfProtectionMiddleware, (req, res) => {
+app.post('/share-quote', csrfProtectionMiddleware, async (req, res) => {
 
     if (!isLoggedIn(req)) {
         res.redirect('/#login');
         return;
     }
 
+    let user = null;
+
+    try {
+        user = await User.findByUsername(req.session.username);
+    } catch (e) {
+        res.status(500).render('500.html.twig');
+        return;
+    }
+
     // Grabbing quote attributes
-    const newQuote = req.body['new-quote'];
+    const newQuoteText = req.body['new-quote-text'];
     const newQuoteColor = req.body['new-quote-color'];
 
-    if (newQuote == null || typeof newQuote !== 'string') {
+    if (newQuoteText == null || typeof newQuoteText !== 'string') {
         res.status(400).render('400.html.twig');
         return;
     }
@@ -208,7 +218,18 @@ app.post('/share-quote', csrfProtectionMiddleware, (req, res) => {
         res.status(400).render('400.html.twig');
         return;
     }
-    // TODO: Save quote
+
+    const quoteData = {
+        quoteText: newQuoteText,
+        isInspiring: isInspiringQuote(newQuoteText),
+        userId: user.userId
+    };
+    if (isInspiringQuote(newQuoteText)) {
+        quoteData.quoteColor = newQuoteColor;
+    }
+
+    const quote = await Quote.create(quoteData);
+
     console.log("Time to save the new quote");
 
     res.redirect('/');
@@ -257,3 +278,4 @@ app.listen(port, () => {
 // TODO - Stronger admin pass
 // TODO - Add flag
 // TODO - Log events
+// TODO - minify/uglify js
