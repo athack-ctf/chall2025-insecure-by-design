@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrfToken }}">
+    <meta name="csrf-token" content="{{ csrfToken | escape }}">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -31,9 +31,9 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown"
                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://gravatar.com/avatar/{{ user.userHash }}?s=32&d=wavatar&r=x"
+                            <img src="https://gravatar.com/avatar/{{ user.userHash | escape }}?s=32&d=wavatar&r=x"
                                  alt="Avatar" class="nav-avatar">
-                            <span id="username-nav">{{ user.username }}</span>
+                            <span id="username-nav">{{ user.username | escape }}</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark" aria-labelledby="navbarDropdown">
                             <li>
@@ -64,18 +64,10 @@
                 data-bs-target="#share-quote-modal"
                 data-bs-toggle="modal"
                 id="pen-button">
-            <i class="fas fa-pen"></i>
+            <i class="fa-solid fa-pen-to-square"></i>
         </button>
     {% endif %}
 </div>
-
-{% if isLoggedIn == true %}
-    {#  New quote button  #}
-    <button type="button" class="btn btn-primary btn-floating position-fixed bottom-0 end-0 m-3" data-bs-toggle="modal"
-            data-bs-target="#share-quote-modal">
-        <i class="fas fa-pen"></i>
-    </button>
-{% endif %}
 {% if isLoggedIn == true %}
     {#  Logout form  #}
     <div class="modal fade" id="logout-modal" tabindex="-1" aria-labelledby="logout-modal-label" aria-hidden="true">
@@ -88,7 +80,7 @@
                 <div class="modal-body">
                     <p>Are you sure you want to log out? Any unshared quote might be lost, forever.</p>
                     <form method="post" action="/logout">
-                        <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+                        <input type="hidden" name="_csrf" value="{{ csrfToken | escape }}">
                         <button type="submit" class="btn btn-primary w-100">Logout, please.</button>
                     </form>
                 </div>
@@ -121,7 +113,7 @@
                             <small id="new-quote-error" style="color: red; display: none;">InkHub doesn't support some
                                 characters, yet.</small>
                         </div>
-                        <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+                        <input type="hidden" name="_csrf" value="{{ csrfToken | escape }}">
                         <button id="share-new-quote-btn" type="submit" class="btn btn-primary w-100">Share Quote
                         </button>
                     </form>
@@ -148,7 +140,7 @@
                             <label for="password" class="form-label">InkHub Password</label>
                             <input name="password" type="password" class="form-control" id="password" required>
                         </div>
-                        <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+                        <input type="hidden" name="_csrf" value="{{ csrfToken | escape }}">
                         <button type="submit" class="btn btn-primary w-100">Let me in!</button>
                     </form>
                 </div>
@@ -159,33 +151,33 @@
 <div class="container my-5">
     <div class="title-container">
         <img src="/imgs/inkhub-256-256.png" alt="logo">
-        <h5 class="mb-4">Recently Shared Quotes: <code class="text-primary"><b>{{ quotes|length }}</b></code></h5>
+        <h5 class="mb-4">Recently Shared Quotes: <code class="text-primary"><b>{{ quotes|length | escape }}</b></code></h5>
     </div>
     <div class="grid-container">
         {% if quotes is empty %}
             <p class="empty-state">No quotes have been shared yet. Be the first to share one!</p>
         {% else %}
             {% for quote in quotes %}
-                <div id="quote-card-{{ quote.quoteId }}" class="quote-card d-flex flex-column">
+                <div id="quote-card-{{ quote.quoteId | escape }}" class="quote-card d-flex flex-column">
                     <div class="d-flex flex-column quote-card-inner-border-default">
                         <div class="user-info">
-                            <img src="https://gravatar.com/avatar/{{ quote.User.userHash }}?s=64&d=wavatar&r=x"
+                            <img src="https://gravatar.com/avatar/{{ quote.User.userHash | escape }}?s=64&d=wavatar&r=x"
                                  alt="Avatar" class="quote-avatar">
-                            <h5>{{ quote.User.username }}</h5>
+                            <h5>{{ quote.User.username | escape }}</h5>
                         </div>
 
                         <p class="quote-text text-black"><i class="fa-solid fa-quote-left"></i>
-                            <code>{{ quote.quoteText }} </code><i class="fa-solid fa-quote-right"></i></p>
+                            <code>{{ quote.quoteText| escape }} </code><i class="fa-solid fa-quote-right"></i></p>
                         <div class="clap-section mt-auto">
                             <button class="btn btn-light mt-auto clap-btn"
-                                    onclick="increaseClapCount({{ quote.quoteId }})"
+                                    onclick="increaseClapCount({{ quote.quoteId | escape }})"
                                     {% if isLoggedIn == false %}
                                         disabled
                                     {% endif %}
                             >
-                                <i id="clap-icon-{{ quote.quoteId }}" class="fa-solid fa-hands-clapping"></i>
+                                <i id="clap-icon-{{ quote.quoteId | escape }}" class="fa-solid fa-hands-clapping"></i>
                             </button>
-                            <span id="clap-count-{{ quote.quoteId }}" class="clap-count">{{ quote.clapCount }}</span>
+                            <span id="clap-count-{{ quote.quoteId | escape }}" class="clap-count">{{ quote.clapCount | escape }}</span>
                         </div>
                     </div>
                 </div>

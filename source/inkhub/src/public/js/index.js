@@ -4,8 +4,8 @@ async function increaseClapCount(quoteId) {
 
     const trackingInterval = 2000;
 
-    const clapCount = document.getElementById(`clap-count-${quoteId}`);
-    const clapIcon = document.getElementById(`clap-icon-${quoteId}`);
+    const clapCountEl = document.getElementById(`clap-count-${quoteId}`);
+    const clapIconEl = document.getElementById(`clap-icon-${quoteId}`);
 
     // Initialize tracking for the specific quoteId if it doesn't exist
     if (!clapTracking[quoteId]) {
@@ -16,14 +16,14 @@ async function increaseClapCount(quoteId) {
     }
 
     // Increment the visible clap count on the page
-    let count = parseInt(clapCount.innerText, 10);
-    clapCount.innerText = ++count;
+    let count = parseInt(clapCountEl.innerText, 10);
+    clapCountEl.innerText = ++count;
 
     // Add click animation
     const animationClass = "fa-shake";
-    clapIcon.classList.add(animationClass);
+    clapIconEl.classList.add(animationClass);
     setTimeout(() => {
-        clapIcon.classList.remove(animationClass);
+        clapIconEl.classList.remove(animationClass);
     }, 200);
 
     // Update the clap count for this quoteId
@@ -32,24 +32,32 @@ async function increaseClapCount(quoteId) {
     // If there's no active timeout, start a 2-second countdown
     if (!clapTracking[quoteId].timeout) {
         clapTracking[quoteId].timeout = setTimeout(async () => {
+            try {
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                const clickCount = clapTracking[quoteId].clickCount;
 
-            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                const response = await fetch(`/ajax/submit-claps/${quoteId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': csrfToken,
+                    },
+                    body: JSON.stringify({clapCount: clickCount})
+                });
 
-            console.log(`CSRF ${csrfToken}`);
-            console.log(`Total clicks for quote ${quoteId} during interval: ${clapTracking[quoteId].clickCount}`);
+                if (response.ok) {
+                    // Set the current value of claps
+                    clapIconEl.innerText = response.json().data.clapCount;
+                }else{
+                    throw new Error(`Could not submit claps: ${response.status}`);
+                }
 
-            const clickCount = clapTracking[quoteId].clickCount;
 
-            await fetch(`/ajax/submit-claps/${quoteId}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-Token': csrfToken,
-                },
-                body: JSON.stringify({clapCount: clickCount})
-            });
+            } catch (error) {
+                // Handle any errors (network issues, invalid JSON, etc.)
+                console.error('Error occurred while submitting claps:', error);
+            }
 
-            // TODO: commit to the backed
 
             // Reset tracking data for this quoteId
             clapTracking[quoteId].clickCount = 0;
@@ -150,5 +158,5 @@ document.addEventListener("DOMContentLoaded", function () {
         if (icon) {
             icon.classList.add("fa-beat");
         }
-    }, 5000);
+    }, 90000);
 });

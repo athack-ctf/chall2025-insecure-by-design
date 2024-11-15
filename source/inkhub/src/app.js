@@ -8,7 +8,7 @@ const cookieParser = require('cookie-parser');
 
 const {isValidHexColor} = require("./utils-vuln");
 const {User, Quote} = require("./models");
-const {isInspiringQuote, textToHexColor, isStrictlyPositive} = require("./utils");
+const {isInspiringQuote, isStrictlyPositive} = require("./utils");
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Creating app
@@ -19,9 +19,6 @@ const app = express();
 // ---------------------------------------------------------------------------------------------------------------------
 // Twig
 // ---------------------------------------------------------------------------------------------------------------------
-
-// Register Twig as the rendering engine for .twig files
-app.engine('twig', twig.__express);
 
 // Set up Express to use Twig as the template engine
 app.set('view engine', 'twig');
@@ -256,20 +253,51 @@ app.post('/ajax/submit-claps/:quoteId([0-9]+)', csrfProtectionMiddleware, expres
     // Clap count
     const {clapCount} = req.body;
 
-    if(!isStrictlyPositive(clapCount)){
+    if (!isStrictlyPositive(clapCount)) {
         res.status(400).json({
-            error: 'Invalid arguments',
-            message: 'Invalid arguments.'
+            error: 'Invalid argument(s)',
+            message: 'Invalid clap count.'
         });
         return;
     }
 
-    console.log('Quote ID:', quoteId);
-    console.log('Clap count:', clapCount);
-    // TODO: Increase clap count
+    let quoteExists = true;
+    try {
+        quoteExists = await Quote.doesQuoteExist(quoteId);
+    } catch (error) {
+        res.status(500).json({
+            error: 'Error',
+            message: 'Error accessing the database.'
+        });
+    }
 
-    // Respond with a success message or handle the request further
-    res.json({ message: 'Clap submitted successfully!', quoteId });
+    if (!quoteExists) {
+        res.status(400).json({
+            error: 'Invalid argument(s)',
+            message: 'Invalid quote id.'
+        });
+        return;
+    }
+
+    try {
+        // Incrementing claps
+        const quote = await Quote.incrementClaps(quoteId, clapCount);
+        // Respond with a success message
+        res.json({
+            message: 'Clap submitted successfully.',
+            data: {
+                clapCount: quote.clapCount
+            }
+        });
+        return;
+
+    } catch (error) {
+        res.status(500).json({
+            error: 'Error',
+            message: 'Error accessing the database.'
+        });
+    }
+
 });
 
 // ---------------------------------------------------------------------------------------------------------------------
