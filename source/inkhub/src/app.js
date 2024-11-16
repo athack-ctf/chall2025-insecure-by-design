@@ -144,13 +144,13 @@ app.get('/', async (req, res) => {
     }
 
 });
-app.get('/css/dynamic-styles.css', async (req, res) => {
+app.get('/css/styles.css', async (req, res) => {
     // Variable for holding all quotes
     let allQuotes = null;
     try {
         allQuotes = await Quote.getQuotesWithUsers();
         console.log('Total quotes fetched (with users): ', allQuotes.length);
-        res.set('Content-Type', 'text/css').render('dynamic.styles.css.twig', {quotes: allQuotes});
+        res.set('Content-Type', 'text/css').render('styles.css.twig', {quotes: allQuotes});
         return;
     } catch (error) {
         console.error('Error displaying quotes with users:', error);
