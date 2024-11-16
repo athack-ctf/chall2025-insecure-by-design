@@ -143,6 +143,14 @@ document.addEventListener("DOMContentLoaded", function () {
         new bootstrap.Tooltip(tooltipTriggerEl);
     });
 
+    // Initialize input fields
+    document.querySelectorAll('.input-field').forEach(input => {
+        input.addEventListener('input', function() {
+            input.setAttribute('value', input.value);
+        });
+    });
+
+    // Initialize bootstrap models
     const hash = window.location.hash.replace('#', '');
     if (['login', 'logout', 'share-quote'].includes(hash)) {
         try {

@@ -135,11 +135,11 @@
                     <form method="post" action="/login">
                         <div class="mb-3">
                             <label for="username" class="form-label">InkHub Username</label>
-                            <input name="username" type="text" class="form-control" id="username" required>
+                            <input id="username" name="username" type="text" class="form-control input-field" required>
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">InkHub Password</label>
-                            <input name="password" type="password" class="form-control" id="password" required>
+                            <input id="password" name="password" type="password" class="form-control input-field" required>
                         </div>
                         <input type="hidden" name="_csrf" value="{{ csrfToken | escape }}">
                         <button type="submit" class="btn btn-primary w-100">Let me in!</button>
