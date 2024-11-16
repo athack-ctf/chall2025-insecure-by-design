@@ -6,9 +6,9 @@ const bodyParser = require('body-parser');
 const csrf = require('csurf');
 const cookieParser = require('cookie-parser');
 
-const {isValidHexColor} = require("./utils-vuln");
+const {isValidHexColor} = require("./validators-vuln");
 const {User, Quote} = require("./models");
-const {isInspiringQuote, isStrictlyPositive} = require("./utils");
+const {isInspiringQuote, isStrictlyPositive, isValidQuote} = require("./validators");
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Creating app
@@ -100,7 +100,6 @@ app.get('/', async (req, res) => {
 
     try {
         allQuotes = await Quote.getQuotesWithUsers();
-        console.dir(allQuotes);
         console.log('Total quotes fetched (with users): ', allQuotes.length);
     } catch (error) {
         console.error('Error displaying quotes with users:', error);
@@ -203,16 +202,22 @@ app.post('/share-quote', csrfProtectionMiddleware, async (req, res) => {
 
     // Grabbing quote attributes
     const newQuoteText = req.body['new-quote-text'];
-    const newQuoteColor = req.body['new-quote-color'];
+    let newQuoteColor = req.body['new-quote-color'];
 
-    if (newQuoteText == null || typeof newQuoteText !== 'string') {
-        res.status(400).render('400.html.twig');
+    // Validating quote
+    if (newQuoteText == null || typeof newQuoteText !== 'string' || !isValidQuote(newQuoteText)) {
+        res.status(400).render('400.html.twig', {message: 'Invalid quote.'});
         return;
+    }
+
+    // Setting default value of newQuoteColor to black
+    if (newQuoteColor === undefined) {
+        newQuoteColor = "#000000";
     }
 
     // NOTE: This is the vulnerable part allowing for the CSS injection to happen
     if (!isValidHexColor(newQuoteColor)) {
-        res.status(400).render('400.html.twig');
+        res.status(400).render('400.html.twig', {message: 'Invalid hex color.'});
         return;
     }
 
@@ -227,9 +232,10 @@ app.post('/share-quote', csrfProtectionMiddleware, async (req, res) => {
     if (isInspiringQuote(newQuoteText)) {
         quoteData.quoteColor = newQuoteColor; // <-- NOTE: The CSS Injection happens here!
     }
-
+    
     // Saving the quote
     const quote = await Quote.create(quoteData);
+    console.log(`Created new quote with quoteId: ${quote.quoteId}.`);
 
     res.redirect('/');
 });

@@ -99,7 +99,7 @@ function newHexColor() {
 
 function onQuoteTextChanged() {
     // Grabbing quote
-    const newQuote = document.getElementById("new-quote");
+    const newQuote = document.getElementById("new-quote-text");
     const newQuoteStyle = document.getElementById("new-quote-color");
     const quote = newQuote.value;
 

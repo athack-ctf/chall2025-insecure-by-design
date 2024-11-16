@@ -16,7 +16,8 @@
     <div class="text-center">
         <h1 class="display-1 text-danger">500 - Server Error</h1>
         <p class="fs-3">Not sure what happened.</p>
-        <a href="/" class="btn btn-primary">Goto to the homepage</a>
+        <p class="lead">{{ message ?? 'Unkown server error.' | escape }}</p>
+        <a href="/" class="btn btn-primary"><i class="fa-solid fa-arrow-left"></i>Goto to the homepage</a>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
