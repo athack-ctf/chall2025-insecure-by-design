@@ -35,6 +35,18 @@
     margin-right: 15px;
 }
 
+.position-relative {
+    position: relative;
+}
+
+.admin-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: black;
+    font-size: 1.5em;
+}
+
 @keyframes glow {
     0%, 100% {
         box-shadow: 0 0 4px lawngreen, 0 0 8px lawngreen, 0 0 16px lawngreen;

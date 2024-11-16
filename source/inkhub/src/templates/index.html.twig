@@ -164,12 +164,15 @@
             <p class="empty-state">No quotes have been shared yet. Be the first to share one!</p>
         {% else %}
             {% for quote in quotes %}
-                <div id="quote-card-{{ quote.quoteId | escape }}" class="quote-card d-flex flex-column">
+                <div id="quote-card-{{ quote.quoteId | escape }}" class="quote-card d-flex flex-column position-relative">
                     <div class="d-flex flex-column quote-card-inner-border-default">
                         <div class="user-info">
                             <img src="https://gravatar.com/avatar/{{ quote.User.userHash | escape }}?s=64&d=wavatar&r=x"
                                  alt="Avatar" class="quote-avatar">
                             <h5>{{ quote.User.username | escape }}</h5>
+                            {% if quote.User.isAdmin == true %}
+                                <i class="fa fa-star admin-badge fa-fade" aria-hidden="true"></i>
+                            {% endif %}
                         </div>
 
                         <p class="quote-text text-black"><i class="fa-solid fa-quote-left"></i>
