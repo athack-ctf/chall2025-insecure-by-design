@@ -1,21 +1,42 @@
-// TODO: Replace with puppeteer bot
+const puppeteer = require('puppeteer');
 
-const fs = require('fs');
-const path = require('path');
-const os = require('os');
+// Utility function to log with timestamps
+function logWithTimestamp(message) {
+    const timestamp = new Date().toISOString();
+    console.log(`[${timestamp}] ${message}`);
+}
 
-// Generate a random identifier for the filename
-const randomId = Math.floor(Math.random() * 100000); // Adjust the range as needed
-const filename = `admin-bot-${randomId}.txt`;
+(async () => {
+    logWithTimestamp('Starting the Puppeteer bot...');
 
-// Define the full path in the system's temp directory
-const tempFilePath = path.join(os.tmpdir(), filename);
+    // Launch a new browser instance
+    const browser = await puppeteer.launch({
+        headless: false, // Set to true if you don't want to see the browser UI
+        executablePath: '/usr/bin/google-chrome',
+        args: ['--disable-web-security', '--no-sandbox','--incognito'],
+    });
 
-// Write an empty file to the temp directory
-fs.writeFile(tempFilePath, '', (err) => {
-    if (err) {
-        console.error('Error creating file:', err);
-    } else {
-        console.log(`Empty file created: ${tempFilePath}`);
+    try {
+        // Create a new incognito browser context
+        logWithTimestamp('Creating an incognito browser context...');
+
+        // Open a new page in the incognito context
+        const page = await browser.newPage();
+
+        // Navigate to localhost:2025
+        logWithTimestamp('Navigating to http://localhost:2025 in incognito mode...');
+        await page.goto('http://localhost:2025', {waitUntil: 'networkidle2'});
+
+        logWithTimestamp('Successfully opened http://localhost:2025 in incognito mode');
+
+        // Add any additional actions or interactions here, if needed
+
+    } catch (err) {
+        logWithTimestamp(`An error occurred: ${err.message}`);
+    } finally {
+        // Close the browser
+        logWithTimestamp('Closing the browser...');
+        await browser.close();
+        logWithTimestamp('Puppeteer bot execution completed.');
     }
-});
+})();
