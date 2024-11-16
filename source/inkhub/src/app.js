@@ -374,6 +374,9 @@ app.listen(port, () => {
 // ---------------------------------------------------------------------------------------------------------------------
 
 // TODO - Rate limiting
-// TODO - Admin admin-bot (claps, and writes a quote)
 // TODO - Log events
 // TODO - minify/uglify js
+// TODO - Test CSS injection
+// TODO - Test container
+// TODO - Run admin bot every 2mins
+// TODO - Add quotes for the admin lulz
