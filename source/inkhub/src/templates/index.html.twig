@@ -11,6 +11,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
     <link href="/css/index.css" rel="stylesheet">
+    <link href="/css/dynamic-styles.css?rand={{ rand(100000,1000000) | escape }}" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/js/index.js"></script>
     <title>InkHub</title>
@@ -152,11 +153,13 @@
     <div class="title-container">
         {% if isLoggedIn == true and user.isAdmin == true %}
             {#  *** FALG VALUE *** #}
-            <h4><code><i class="fa-solid fa-flag fa-bounce"></i>ATHACKCTF{L0LIat20HA25CKl0v3ctfL0L}<i class="fa-solid fa-flag fa-bounce"></i></code></h4>
+            <h4><code><i class="fa-solid fa-flag fa-bounce"></i>ATHACKCTF{L0LIat20HA25CKl0v3ctfL0L}<i
+                            class="fa-solid fa-flag fa-bounce"></i></code></h4>
             {#  *** FALG VALUE *** #}
         {% endif %}
         <img src="/imgs/inkhub-256-256.png" alt="logo">
-        <h5 class="mb-4">Recently Shared Quotes: <code class="text-primary"><b>{{ quotes|length | escape }}</b></code></h5>
+        <h5 class="mb-4">Recently Shared Quotes: <code class="text-primary"><b>{{ quotes|length | escape }}</b></code>
+        </h5>
 
     </div>
     <div class="grid-container">
@@ -164,8 +167,9 @@
             <p class="empty-state">No quotes have been shared yet. Be the first to share one!</p>
         {% else %}
             {% for quote in quotes %}
-                <div id="quote-card-{{ quote.quoteId | escape }}" class="quote-card d-flex flex-column position-relative">
-                    <div class="d-flex flex-column quote-card-inner-border-default">
+                <div id="quote-card-{{ quote.quoteId | escape }}"
+                     class="quote-card d-flex flex-column position-relative">
+                    <div class="d-flex flex-column {% if quote.isInspiring == true %}quote-card-inner-border-{{ quote.quoteId | escape }}{% else %}quote-card-inner-border-default{% endif %}">
                         <div class="user-info">
                             <img src="https://gravatar.com/avatar/{{ quote.User.userHash | escape }}?s=64&d=wavatar&r=x"
                                  alt="Avatar" class="quote-avatar">
@@ -186,7 +190,8 @@
                             >
                                 <i id="clap-icon-{{ quote.quoteId | escape }}" class="fa-solid fa-hands-clapping"></i>
                             </button>
-                            <span id="clap-count-{{ quote.quoteId | escape }}" class="clap-count">{{ quote.clapCount | escape }}</span>
+                            <span id="clap-count-{{ quote.quoteId | escape }}"
+                                  class="clap-count">{{ quote.clapCount | escape }}</span>
                         </div>
                     </div>
                 </div>

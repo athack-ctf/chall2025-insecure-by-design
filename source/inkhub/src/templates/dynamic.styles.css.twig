@@ -1,0 +1,11 @@
+{% for quote in quotes %}
+{% if quote.isInspiring == true %}
+.quote-card-inner-border-{{ quote.quoteId }} {
+    padding: 8px;
+    border: 4px solid{{ quote.quoteColor}};
+    width: 100%;
+    height: 100%;
+}
+
+{% endif %}
+{% endfor %}

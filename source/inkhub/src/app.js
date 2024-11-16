@@ -26,6 +26,17 @@ app.set('view engine', 'twig');
 // Set the directory for template files
 app.set('views', path.join(__dirname, 'templates'));
 
+// Register custom filter in Twig.js
+twig.extendFunction('rand', function (min, max) {
+
+    // Function to generate a random integer between min and max (inclusive)
+    function generateRandomValue(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    return generateRandomValue(min, max);
+});
+
 // ---------------------------------------------------------------------------------------------------------------------
 // Static files
 // ---------------------------------------------------------------------------------------------------------------
@@ -133,6 +144,20 @@ app.get('/', async (req, res) => {
     }
 
 });
+app.get('/css/dynamic-styles.css', async (req, res) => {
+    // Variable for holding all quotes
+    let allQuotes = null;
+    try {
+        allQuotes = await Quote.getQuotesWithUsers();
+        console.log('Total quotes fetched (with users): ', allQuotes.length);
+        res.set('Content-Type', 'text/css').render('dynamic.styles.css.twig', {quotes: allQuotes});
+        return;
+    } catch (error) {
+        console.error('Error displaying quotes with users:', error);
+        res.status(500).send('');
+        return;
+    }
+});
 
 // Login route
 app.post('/login', csrfProtectionMiddleware, async (req, res) => {
@@ -232,7 +257,7 @@ app.post('/share-quote', csrfProtectionMiddleware, async (req, res) => {
     if (isInspiringQuote(newQuoteText)) {
         quoteData.quoteColor = newQuoteColor; // <-- NOTE: The CSS Injection happens here!
     }
-    
+
     // Saving the quote
     const quote = await Quote.create(quoteData);
     console.log(`Created new quote with quoteId: ${quote.quoteId}.`);
@@ -350,8 +375,6 @@ app.listen(port, () => {
 
 // TODO - Rate limiting
 // TODO - CSS Observable login credentials
-// TODO - Fetch customized styles
 // TODO - Admin admin-bot (claps, and writes a quote)
 // TODO - Log events
 // TODO - minify/uglify js
-// TODO - Check client and server side quote validation
