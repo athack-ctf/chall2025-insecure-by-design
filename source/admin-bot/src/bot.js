@@ -14,6 +14,10 @@ function logWithTimestamp(message) {
     console.log(`[${timestamp}] ${message}`);
 }
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 (async () => {
 
     logWithTimestamp('Starting the Puppeteer bot...');
@@ -60,6 +64,40 @@ function logWithTimestamp(message) {
         await page.waitForNavigation({ waitUntil: 'networkidle2' });
 
         logWithTimestamp('Navigation after login completed.');
+
+
+        logWithTimestamp('Searching for buttons with the class "clap-btn"...');
+
+        // Get all buttons with the class "clap-btn"
+        const buttons = await page.$$eval('.clap-btn', nodes => nodes.map((node, index) => ({ index, node: node.outerHTML })));
+
+        if (buttons.length === 0) {
+            logWithTimestamp('No buttons with class "clap-btn" found on the page.');
+            return;
+        }
+
+        logWithTimestamp(`Found ${buttons.length} buttons with class "clap-btn".`);
+
+        // Shuffle the buttons and pick 3 unique ones
+        const shuffledButtons = buttons.sort(() => Math.random() - 0.5);
+        const selectedButtons = shuffledButtons.slice(0, 3);
+
+        for (const { index } of selectedButtons) {
+            const clickCount = Math.floor(Math.random() * 50) + 10; // Random number between 1 and 20
+            logWithTimestamp(`Clicking button ${index + 1} (${clickCount} times)...`);
+
+            for (let i = 0; i < clickCount; i++) {
+                await page.evaluate(idx => {
+                    document.querySelectorAll('.clap-btn')[idx].click();
+                }, index);
+
+                await sleep(100); // Optional: Add a delay between clicks
+            }
+
+            logWithTimestamp(`Finished clicking button ${index + 1}.`);
+        }
+
+        await sleep(5000);
 
         // Close the browser
         logWithTimestamp('Closing the browser...');
