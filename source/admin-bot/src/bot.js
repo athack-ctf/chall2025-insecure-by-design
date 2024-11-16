@@ -1,4 +1,12 @@
 const puppeteer = require('puppeteer');
+const admin = require("./admin.json");
+
+// Configs
+
+const USERNAME = admin.username;
+const PASSWORD = admin.password;
+const BASE_URL = "http://localhost:2025/"
+const TYPING_DELAY = 250;
 
 // Utility function to log with timestamps
 function logWithTimestamp(message) {
@@ -7,36 +15,58 @@ function logWithTimestamp(message) {
 }
 
 (async () => {
+
     logWithTimestamp('Starting the Puppeteer bot...');
 
-    // Launch a new browser instance
-    const browser = await puppeteer.launch({
-        headless: false, // Set to true if you don't want to see the browser UI
-        executablePath: '/usr/bin/google-chrome',
-        args: ['--disable-web-security', '--no-sandbox','--incognito'],
-    });
-
     try {
-        // Create a new incognito browser context
-        logWithTimestamp('Creating an incognito browser context...');
+        // Launch the browser
+        const browser = await puppeteer.launch({
+            headless: false, // TODO: Set to true if you don't want to see the browser UI
+            defaultViewport: null, // Use full screen
+            args: ['--start-maximized', '--incognito'], // Start maximized and in incognito mode
+        });
 
-        // Open a new page in the incognito context
+        // Open a new page
         const page = await browser.newPage();
 
         // Navigate to localhost:2025
-        logWithTimestamp('Navigating to http://localhost:2025 in incognito mode...');
-        await page.goto('http://localhost:2025', {waitUntil: 'networkidle2'});
+        logWithTimestamp(`Navigating to ${BASE_URL}#login in private mode...`);
+        await page.goto(`${BASE_URL}#login`, { waitUntil: 'networkidle2' });
 
-        logWithTimestamp('Successfully opened http://localhost:2025 in incognito mode');
+        logWithTimestamp('Filling in the username and password...');
 
-        // Add any additional actions or interactions here, if needed
+        // Type the username
+        await page.type('#username', USERNAME, { delay: TYPING_DELAY }); // Delay makes typing look more natural
+        logWithTimestamp('Username typed.');
 
-    } catch (err) {
-        logWithTimestamp(`An error occurred: ${err.message}`);
-    } finally {
+        // Type the password
+        await page.type('#password', PASSWORD, { delay: TYPING_DELAY });
+        logWithTimestamp('Password typed.');
+
+        // Click the button with the text "Let me in!"
+        logWithTimestamp('Clicking the "Let me in!" button...');
+        await page.evaluate(() => {
+            const button = Array.from(document.querySelectorAll('button')).find(
+                btn => btn.textContent.trim() === 'Let me in!'
+            );
+            if (button) {
+                button.click();
+            }
+        });
+
+        logWithTimestamp('Clicked the "Let me in!" button.');
+
+        // Optional: Wait for navigation or some response
+        await page.waitForNavigation({ waitUntil: 'networkidle2' });
+
+        logWithTimestamp('Navigation after login completed.');
+
         // Close the browser
         logWithTimestamp('Closing the browser...');
         await browser.close();
         logWithTimestamp('Puppeteer bot execution completed.');
+
+    } catch (err) {
+        logWithTimestamp(`An error occurred: ${err.message}`);
     }
 })();
