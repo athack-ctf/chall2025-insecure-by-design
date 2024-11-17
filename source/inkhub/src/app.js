@@ -144,7 +144,7 @@ app.get('/', async (req, res) => {
     }
 
 });
-app.get('/css/styles.css', async (req, res) => {
+app.get('/styles.css', async (req, res) => {
     // Variable for holding all quotes
     let allQuotes = null;
     try {
