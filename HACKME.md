@@ -1,6 +1,3 @@
-Following the spirit of sharing is caring, InkHub was created for sharing inspiring (open) quotes to the world. 
-Every user of InkHub is sharing their most valuable thoughts, including the admin. However, the admin keeps one thing
-to himself: the flag.
+In the spirit of "sharing is caring," InkHub was built to spread inspiring (and open) quotes to the world. Every user contributes their most precious thoughts — including the admin.  But there’s one thing the admin isn’t willing to share: the flag.
 
-Using the credentials the account "user" with password "seru", your goal is to take over the admin's account who seems
-to be very active on InkHub (posts every 2 minutes or so).
+With the credentials for the account `user` (password: `seru`), it’s time to get creative. Your mission? Take over the admin's account and uncover what they’re hiding. Rumor has it, the admin is *very* active on InkHub — posting every two minutes like clockwork.
