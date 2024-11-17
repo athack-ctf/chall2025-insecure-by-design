@@ -13,8 +13,7 @@
 
 ## Description
 
-Exploiting a very uncommon web injection vulnerability present in a website called InkHub. The ultimate goal would be 
-to get an admin account takeover, and secure the flag. 
+Exploiting a very uncommon web injection vulnerability present in a website called InkHub. The ultimate goal is to takeover the admin's account (ATO), and secure the flag. 
 
 **NOTE**: Check the solution for more details.
 
