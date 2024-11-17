@@ -1,10 +1,6 @@
-The description of your challenge as seen by participants in CTFd. Try to make it feel within the theme
-of the event...
+Following the spirit of sharing is caring, InkHub was created for sharing inspiring (open) quotes to the world. 
+Every user of InkHub is sharing their most valuable thoughts, including the admin. However, the admin keeps one thing
+to himself: the flag.
 
----
-If your challenge is a multi-flag one (i.e., it consists of a sequence of sub-challenges each rewarded with
-its own flag), requiring a different description for each sub-challenge, then have your descriptions split as 
-done with this paragraph, and the next one.
-
----
-Obviously, for each sub-challenge, you should provide its flag value in [solution/FLAGS.md](solution/FLAGS.md).
+Using the credentials the account "user" with password "seru", your goal is to take over the admin's account who seems
+to be very active on InkHub (posts every 2 minutes or so).
