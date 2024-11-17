@@ -19,4 +19,4 @@ def handle_request():
     return "Request received. Check the server console for the 'key' parameter."
 
 if __name__ == '__main__':
-    app.run(port=3000)
+    app.run(host='0.0.0.0', port=3000)
