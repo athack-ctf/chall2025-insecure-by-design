@@ -118,7 +118,7 @@ function onQuoteTextChanged() {
         shareButton.disabled = true;
     }
 
-    // Making inspiring quotes stylish
+    // Making inspiring quotes look different
     if (isInspiringQuote(quote)) {
         if (!newQuote.closest("form").querySelector('input[name="new-quote-color"]')) {
             const color = newHexColor();
@@ -160,11 +160,11 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Prompting the user to refresh the page (after 90 seconds)
+    // Prompting the user to refresh the page (after 2 minutes seconds)
     setTimeout(function () {
         const icon = document.getElementById("refresh-button-icon");
         if (icon) {
             icon.classList.add("fa-beat");
         }
-    }, 90000);
+    }, 120000);
 });

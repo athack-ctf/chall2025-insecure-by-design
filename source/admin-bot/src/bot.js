@@ -126,12 +126,19 @@ async function shareQuote(page) {
     logWithTimestamp('Starting the Puppeteer bot...');
 
     try {
+
+        // Puppeteer config
+        const config = {
+            headless: (process.env.USE_HEADLESS_MODE === 'true'),
+            args: ['--disable-web-security', '--no-sandbox', '--incognito'],
+        };
+
+        if (process.env.CHROME_ABS_PATH) {
+            config.executablePath = process.env.CHROME_ABS_PATH;
+        }
+
         // Launch the browser
-        const browser = await puppeteer.launch({
-            headless: false, // TODO: Set to true if you don't want to see the browser UI
-            defaultViewport: null, // Use full screen
-            args: ['--start-maximized', '--incognito'], // Start maximized and in incognito mode
-        });
+        const browser = await puppeteer.launch(config);
 
         // Open a new page
         const page = await browser.newPage();
@@ -142,8 +149,8 @@ async function shareQuote(page) {
         // Wait for 1 second
         await sleep(1000);
 
-        // logWithTimestamp('Clapping...');
-        // await clapOnQuotes(page);
+        logWithTimestamp('Clapping...');
+        await clapOnQuotes(page);
         // Wait for 1 second
         await sleep(1000);
 
