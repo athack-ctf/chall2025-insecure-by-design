@@ -11,6 +11,13 @@ const {User, Quote} = require("./models");
 const {isInspiringQuote, isStrictlyPositive, isValidQuote} = require("./validators");
 
 // ---------------------------------------------------------------------------------------------------------------------
+// Retrieve the environment argument passed via command-line
+// ---------------------------------------------------------------------------------------------------------------------
+
+const args = process.argv.slice(2);
+const env = args.find(arg => arg.startsWith('env='))?.split('=')[1] || 'development'; // default to 'development'
+
+// ---------------------------------------------------------------------------------------------------------------------
 // Creating app
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -349,8 +356,12 @@ app.use((err, req, res, next) => {
         }
         // Handle CSRF token errors here
         res.status(403).render('403-bad-csrf-token.html.twig');
-    } else {
+    } else if (env === 'production') {
         // For other errors, call the next error handler
+        console.error(err);
+        res.status(500).render('500.html.twig', {message: "Unexpected challenge behavior. Contact us (on Discord)."});
+    } else {
+        console.error(err);
         next(err);
     }
 });
