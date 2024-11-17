@@ -377,6 +377,3 @@ app.listen(port, () => {
 // TODO - Log events
 // TODO - minify/uglify js
 // TODO - Test CSS injection
-// TODO - Test container
-// TODO - Run admin bot every 2mins
-// TODO - Add quotes for the admin lulz
