@@ -1,6 +1,6 @@
 # Solution
 
-A provided PoC is placed in [./css-keylogger](./css-keylogger). Here's a quick boiler-place set of commands to set things up.
+A provided PoC is placed in [./css-keylogger](./css-keylogger). Here's a quick boiler-plate set of commands to set things up.
 
 ```
 cd ./css-keylogger
