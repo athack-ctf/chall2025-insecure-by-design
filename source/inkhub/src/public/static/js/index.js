@@ -48,7 +48,7 @@ async function increaseClapCount(quoteId) {
                 if (response.ok) {
                     // Set the current value of claps
                     clapIconEl.innerText = response.json().data.clapCount;
-                }else{
+                } else {
                     throw new Error(`Could not submit claps: ${response.status}`);
                 }
 
@@ -145,7 +145,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Initialize input fields
     document.querySelectorAll('.input-field').forEach(input => {
-        input.addEventListener('input', function() {
+        input.addEventListener('input', function () {
             input.setAttribute('value', input.value);
         });
     });
@@ -159,6 +159,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // no-op
         }
     }
+    const refreshInterval = 120000;
 
     // Prompting the user to refresh the page (after 2 minutes seconds)
     setTimeout(function () {
@@ -166,5 +167,23 @@ document.addEventListener("DOMContentLoaded", function () {
         if (icon) {
             icon.classList.add("fa-beat");
         }
-    }, 120000);
+    }, refreshInterval);
+
+    // Prompting the user to refresh the page (after 2 minutes seconds, using a toast)
+    setTimeout(() => {
+        Toastify({
+            text: "It has been more than 2 mins since you refreshed the page! <a class='toast-button' href='javascript:void(0)' onclick='location.reload()'>Click to refresh</a>",
+            duration: -1,
+            gravity: "bottom",
+            position: "center",
+            escapeMarkup: false,
+            style: {
+                background: "#333",
+                color: "#fff",
+                boxShadow: "0 2px 5px rgba(0,0,0,0.3)",
+                borderRadius: "10px",
+                padding: "10px",
+            },
+        }).showToast();
+    }, refreshInterval);
 });
