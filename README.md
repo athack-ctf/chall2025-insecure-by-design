@@ -7,7 +7,7 @@
 - [ ] **OFF**line
 - [X] **ON**line
 
-## Designer(s)
+## Designer
 
 - Anis
 
@@ -17,6 +17,6 @@ Exploiting a very uncommon web injection vulnerability present in a website call
 
 **NOTE**: Check the solution for more details.
 
-## Category(ies)
+## Category
 
 - `web`
