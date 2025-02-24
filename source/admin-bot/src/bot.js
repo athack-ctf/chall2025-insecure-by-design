@@ -130,7 +130,21 @@ async function shareQuote(page) {
         // Puppeteer config
         const config = {
             headless: (process.env.USE_HEADLESS_MODE === 'true'),
-            args: ['--disable-web-security', '--no-sandbox', '--incognito'],
+            args: [
+                // For the chall
+                '--disable-web-security',
+                '--incognito',
+                '--no-sandbox',
+                '--disable-setuid-sandbox',
+                // For resource optimization
+                '--js-flags="--max-old-space-size=300"',
+                '--disable-dev-shm-usage',
+                '--single-process',
+                '--disable-gpu',
+                '--disable-background-timer-throttling',
+                '--disable-renderer-backgrounding',
+                '--memory-pressure-off'
+            ],
         };
 
         if (process.env.CHROME_ABS_PATH) {

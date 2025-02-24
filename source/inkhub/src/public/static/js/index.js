@@ -93,10 +93,6 @@ function isInspiringQuote(quote) {
     );
 }
 
-function newHexColor() {
-    return `#${Math.floor(Math.random() * 0xFFFFFF).toString(16).padStart(6, '0')}`;
-}
-
 function onQuoteTextChanged() {
     // Grabbing quote
     const newQuote = document.getElementById("new-quote-text");
@@ -121,7 +117,7 @@ function onQuoteTextChanged() {
     // Making inspiring quotes look different
     if (isInspiringQuote(quote)) {
         if (!newQuote.closest("form").querySelector('input[name="new-quote-color"]')) {
-            const color = newHexColor();
+            const color = `#${Math.floor(Math.random() * 0xFFFFFF).toString(16).padStart(6, '0')}`;
             const newQuoteColor = document.createElement("input");
             newQuoteColor.type = "hidden";
             newQuoteColor.name = "new-quote-color";
