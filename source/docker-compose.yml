@@ -1,9 +1,9 @@
 version: '3.8'
 
 services:
-  chall:
+  insecure-by-design:
     build: .
-    image: chall2025-insecure-by-design
+    image: athack-ctf/chall2025-insecure-by-design:latest
     hostname: insecure-by-design
     ports:
       - "2025:2025"
