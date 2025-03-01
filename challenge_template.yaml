@@ -1,0 +1,41 @@
+# Name should be "Challenge name" if only one flag, or
+# "Challenge name - 1", "Challenge name - 2", etc. if multiple ones.
+# Be careful of the spaces before and after the '-'
+name: "Insecure by Design"
+author: ""
+category: <Web>
+description: |
+    In the spirit of "sharing is caring", InkHub was built to spread inspiring (and stylish) quotes to the world.
+    Every user contributes their most precious thoughts (including the admin).
+    But there's one thing the admin isn't willing to share: the flag.
+
+    With the credentials for the account `user` (password: `seru`), it's time to get creative.
+    Your mission? Take over the admin's account and uncover what they're hiding. Rumor has it, the admin is *very* active on InkHub, posting every two minutes like clockwork.
+
+
+    [Start your challenge instance](https://instancer.athackctf.com/chall2025-insecure-by-design/create)
+    
+value: 0
+
+# Let's put the challenges as standard for now and we can script to change
+type: standard
+
+
+# Flags specify answers that your challenge use. You should generally provide at least one.
+flags:
+  - type: "static"
+    content: "ATHACKCTF{YouKnowCSSL6veI@mR0oTn1H4ckU}"
+    data: "case_insensitive"
+
+
+# Available: beginner, interac
+tags:
+
+# Provide paths to files from the same directory that this file is in
+files:
+
+
+# Put hidden by default
+state: hidden
+
+version: "0.1"
