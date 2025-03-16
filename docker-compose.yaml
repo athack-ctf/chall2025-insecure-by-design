@@ -2,7 +2,7 @@ version: '3.8'
 services:
   insecure-by-design:
     image: athack-ctf/chall2025-insecure-by-design:latest
-    build: .
+    build: ./source
     hostname: insecure-by-design
     ports:
     - 52045:2025
